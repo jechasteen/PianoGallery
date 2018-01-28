@@ -1,0 +1,16 @@
+﻿<% include ../partials/header %>
+
+<form action="/gallery" method="POST">
+  <input type="text" name="title" placeholder="Title" />
+  <input type="text" name="make" placeholder="Make" />
+  <input type="text" name="model" placeholder="Model" />
+  <input type="number" name="year" />
+  <input type="text" name="desc" placeholder="Short Description" />
+  <textarea name="body" placeholder="Long Form Description"></textarea>
+  <input type="number" name="l_price" placeholder="List Price" min="0.01" step="0.01" />
+  <input type="number" name="a_price" placeholder="Asking Price" min="0.01" step="0.01" />
+  <input type="text" name="yt_url" placeholder="YouTube URL" />
+  <input type="file" name="images" multiple />
+</form>
+
+<% include ../partials/footer %>

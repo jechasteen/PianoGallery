@@ -6,15 +6,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+mongoose.connect(process.env.DBURL);
+
+var indexRoutes = require('./routes/index');
+var galleryRoutes = require('./routes/gallery');
+// var blogRoutes = require('./routes/blog');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -24,8 +28,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.use('/', indexRoutes);
+app.use('/gallery', galleryRoutes);
+// app.use('/blog', blogRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -58,8 +63,11 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 3000);
-
-var server = app.listen(app.get('port'), function () {
-    debug('Express server listening on port ' + server.address().port);
-});
+app.listen(process.env.PORT, process.env.IP, function () {
+  if (process.env.IP === '127.0.0.1') {
+    var host = "localhost";
+  } else {
+    var host = process.env.IP;
+  }
+  console.log("BHA Piano server listening at http://" + host + ":" + process.env.PORT);
+})
