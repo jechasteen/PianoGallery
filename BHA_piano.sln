@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "BHA_piano", "BHA_piano.njsproj", "{EE38AF82-6D73-4BAD-B588-8941904D4A54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE38AF82-6D73-4BAD-B588-8941904D4A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE38AF82-6D73-4BAD-B588-8941904D4A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE38AF82-6D73-4BAD-B588-8941904D4A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE38AF82-6D73-4BAD-B588-8941904D4A54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31C955C7-B9F2-4F6B-9687-001B3A1C2236}
+	EndGlobalSection
+EndGlobal
