@@ -1,5 +1,7 @@
 ﻿<% include ../partials/header %>
 
+<link href="/stylesheets/admin.css" rel="stylesheet" />
+
 <form action="/gallery" method="POST">
   <input type="text" name="title" placeholder="Title" />
   <input type="text" name="make" placeholder="Make" />
@@ -10,7 +12,11 @@
   <input type="number" name="l_price" placeholder="List Price" min="0.01" step="0.01" />
   <input type="number" name="a_price" placeholder="Asking Price" min="0.01" step="0.01" />
   <input type="text" name="yt_url" placeholder="YouTube URL" />
-  <input type="file" name="images" multiple />
+  <input type="file" id="images" name="images[]" multiple />
+  <output id="list"></output>
+  <button>Submit</button>
 </form>
+
+<script src="/javascripts/gallery_new.js"></script>
 
 <% include ../partials/footer %>
