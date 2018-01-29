@@ -4,4 +4,14 @@
 
 <a href="/gallery/new">New Piano</a>
 
+<% pianos.forEach( function(piano) { %>
+  <p>
+    <%= piano.title %>
+    <img src="<%= piano.images[0] %>" width="100" height="100">
+    <%= piano.desc %>
+    <%= piano.l_price %>
+    <%= piano.a_price %>
+  </p>
+<% }); %>
+
 <% include ../partials/footer %>
