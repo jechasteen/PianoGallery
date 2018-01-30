@@ -1,0 +1,19 @@
+﻿<% include ../partials/header %>
+
+<form action="/gallery/<%= piano._id %>?_method=DELETE" method="POST">
+  <button>Remove Piano</button>
+</form>
+<a href="/gallery/<%= piano._id %>/edit">Edit Piano</a>
+
+<%= piano.title %>
+$<%= piano.l_price %>
+$<%= piano.a_price %>
+<%= piano.make %>
+<%= piano.model %>
+<%= piano.year %>
+<%= piano.body %>
+<% piano.images.forEach( function(img) { %>
+  <img src="/images/<%= img %>" />
+<% }); %>
+
+<% include ../partials/footer %>

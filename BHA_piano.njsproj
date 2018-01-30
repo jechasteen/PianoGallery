@@ -59,10 +59,16 @@
     <Content Include="views\error.ejs">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\gallery\edit.ejs">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\gallery\index.ejs">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\gallery\new.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\gallery\piano.ejs">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\index.ejs">

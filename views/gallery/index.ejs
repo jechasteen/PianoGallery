@@ -6,8 +6,10 @@
 
 <% pianos.forEach( function(piano) { %>
   <p>
-    <%= piano.title %>
-    <img src="<%= piano.images[0] %>" width="100" height="100">
+    <a href="/gallery/<%= piano._id %>">
+      <%= piano.title %>
+      <img src="/images/<%= piano.images[piano.main_image] %>" width="100" height="100">
+    </a>
     <%= piano.desc %>
     <%= piano.l_price %>
     <%= piano.a_price %>
