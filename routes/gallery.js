@@ -7,6 +7,8 @@ var fs = require("fs");
 var utils = require("../utils.js");
 
 var imageDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\";
+var uploadDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\uploads\\";
+
 
 var page = {};
 
@@ -26,95 +28,93 @@ router.get("/new" /* TODO: logged in new gallery */, function (req, res) {
 
 // CREATE
 router.post("/" /* TODO: logged in create piano*/, function (req, res) {
-  // get incoming form
+  var rb = req.body;
+  var newPiano = new Piano;
+  newPiano.title = rb.title;
+  newPiano.make = rb.make;
+  newPiano.model = rb.model;
+  newPiano.year = rb.year;
+  newPiano.desc = rb.desc;
+  newPiano.body = rb.body;
+  newPiano.l_price = rb.l_price;
+  newPiano.a_price = rb.a_price;
+  newPiano.yt_url = rb.yt_url;
+
+  Piano.create(newPiano, function (err, createdPiano) {
+    if (err) console.log("error: POST /gallery, Piano.create: " + err);
+    else res.redirect("/gallery/" + createdPiano._id + "/addimg");
+  });
+});
+// -> CREATE/Add Images
+router.get("/:id/addimg", function (req, res) {
+  Piano.findById(req.params.id, function (err, foundPiano) {
+    if (err) console.log("error: GET /gallery/:id/addimg, Piano.find: " + err);
+    else {
+      page.title = "Add images to new piano: " + foundPiano.title;
+      res.render("gallery/addimg", {page: page, piano: foundPiano });
+    }
+  });
+});
+// -> CREATE/Update Piano.images and .main_image
+// Really an UPDATE route
+router.put("/:id/addimg", function (req, res) {
+  // make new directory for new piano named Piano._id
+  var imgDir = imageDirectory + req.params.id;
+  if (!fs.existsSync(imgDir)) {   // BLOCKING
+    fs.mkdir(imageDirectory + req.params.id, function (err) {
+      if (err) console.log("error: PUT /gallery/:id/addimg, fs.mkdir: " + err);
+    });
+  } else {
+    console.log("Folder already existed, continuing...");
+  }
+  
+  // handle upload
   var form = formidable.IncomingForm();
-  form.uploadDir = imageDirectory;
+  form.uploadDir = imgDir;
   form.multiples = true;
 
-  var title = "";
-  var gallery_image = "";
-  var newPiano = {};
-
   form.parse(req, function (err, fields, files) {
-    console.log("New Piano form has been parsed...")
+    console.log("PUT /gallery/:id/addimg: form parsed...")
   });
 
-  // Set the fields for the new piano from the form data
+  var main_image = "";
+
   form.on("field", function (name, value) {
-    switch (name) {
-      case "title":
-        title = utils.spaceToUnderscore(value);
-        newPiano.title = title;
-        break;
-      case "make":
-        newPiano.make = value;
-        break;
-      case "model":
-        newPiano.model = value;
-        break;
-      case "year":
-        newPiano.year = value;
-        break;
-      case "desc":
-        newPiano.desc = value;
-        break;
-      case "body":
-        newPiano.body = value;
-        break;
-      case "l_price":
-        newPiano.l_price = value;
-        break;
-      case "a_price":
-        newPiano.a_price = value;
-        break;
-      case "yt_url":
-        newPiano.yt_url = value;
-        break;
-      case "main_image":
-        gallery_image = value;
-      default:
-        break;
+    if (name === "main_image") {
+      main_image = value;
+      console.log("main->>>" + main_image);
     }
   });
 
-  // Create image array for Piano
-  var images = [];
-  var file_list = [];
-
-  // Activates for each uploaded file
+  var images = []
   form.on("file", function (name, file) {
-    console.log(name + "<->" + file.name);
-    var ext = utils.getFileExt(file.name);
-    var filename = title + file.size + "." + ext;
-    var oldpath = file.path;
-    var newpath = imageDirectory + filename;
-    
-    images.push(filename);
-    file_list.push(file.name);
-    
-    fs.rename(oldpath, newpath, function (err) {
-      if (err) console.log("error: POST /gallery fs.rename: " + err);
+    fs.renameSync(file.path, imgDir + "\\" + file.name, function (err) {
+      if (err) console.log("error: PUT /gallery/:id/addimg fs.rename: " + err);
     });
+    images.push(file.name);
   });
-  // Once all of the files have been processed
-  form.on("end", function () {   
-    newPiano.images = images;
-    console.log(gallery_image);
-    newPiano.main_image = file_list.indexOf(gallery_image);
-    // Finally, create new Piano in DB
-    if (!Piano.find({ title: newPiano.title })) {
-      Piano.create(newPiano, function (err, newPiano) {
-        if (err) console.log("error: POST /gallery, Piano.create: " + err);
-        else {
-          console.log("New Piano has been created");
-          res.redirect("/gallery");
-        }
-      });
-    } else {
-      // TODO: Flash a message, title already exists
-      res.redirect("/gallery/new");
-    }
-    
+
+  var updatedPiano = {};
+
+  form.on("end", function () {
+    Piano.findById(req.params.id, function (err, foundPiano) {
+      if (err) console.log("error: PUT /gallery/:id/addimg, Piano.findById: " + err);
+      else {
+        updatedPiano = foundPiano;
+        updatedPiano.images = images;
+        updatedPiano.main_image = main_image;
+        console.log(updatedPiano);
+        updatedPiano.save(function (err) {
+          if (err) console.log("error: PUT /gallery/:id/addimg, updatedPiano.save() : " + err);
+        });
+        res.redirect("/gallery/" + req.params.id)
+      }
+    });
+    /*
+    Piano.findByIdAndUpdate(req.params.id, updatedPiano, function (err, updatedPiano) {
+      if (err) console.log("error: PUT /gallery/:id/addimg, Piano.findByIdAndUpdate: " + err);
+      else res.redirect("/gallery/" + req.params.id);
+    });*/
   });
 });
 

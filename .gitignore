@@ -4,7 +4,7 @@
 /public/images
 # VS files
 /.vs
-
+/obj
 *.njsproj
 # git ignore
 /.git

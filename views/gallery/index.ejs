@@ -8,7 +8,7 @@
   <p>
     <a href="/gallery/<%= piano._id %>">
       <%= piano.title %>
-      <img src="/images/<%= piano.images[piano.main_image] %>" width="100" height="100">
+      <img src="/images/<%= piano._id %>/<%= piano.main_image %>" width="100" height="100">
     </a>
     <%= piano.desc %>
     <%= piano.l_price %>

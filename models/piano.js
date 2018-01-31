@@ -11,7 +11,7 @@ var pianoSchema = new mongoose.Schema({
   a_price: Number,
   yt_url: String, // URL to youtube video
   images: [String],
-  main_image: { type: Number, default: 0 },
+  main_image: String,
   date: { type: Date, default: Date.now }    // date posted, should default to NOW
 });
 

@@ -13,7 +13,7 @@ $<%= piano.a_price %>
 <%= piano.year %>
 <%= piano.body %>
 <% piano.images.forEach( function(img) { %>
-  <img src="/images/<%= img %>" />
+  <img src="/images/<%= piano._id %>/<%= img %>" />
 <% }); %>
 
 <% include ../partials/footer %>
