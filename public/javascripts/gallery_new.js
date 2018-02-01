@@ -26,7 +26,7 @@ window.onload = function () {
           span.innerHTML = ['<img class="thumb" src="', e.target.result,
             '" title="', escape(theFile.name), '"/> <figcaption>',
             '<input type="radio" id="main_image" name="main_image" value="', theFile.name,
-            '">', theFile.name, </figcaption>'].join('');
+            '">', theFile.name, '</figcaption>'].join('');
 
           document.getElementById('list').insertBefore(span, null);
 
