@@ -9,8 +9,9 @@ var utils = require("../utils.js");
 var imageDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\";
 var uploadDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\uploads\\";
 
-
 var page = {};
+
+function setAttr()
 
 // INDEX
 router.get("/", function (req, res) {
@@ -82,7 +83,6 @@ router.put("/:id/addimg", function (req, res) {
   form.on("field", function (name, value) {
     if (name === "main_image") {
       main_image = value;
-      console.log("main->>>" + main_image);
     }
   });
 
@@ -94,27 +94,19 @@ router.put("/:id/addimg", function (req, res) {
     images.push(file.name);
   });
 
-  var updatedPiano = {};
-
   form.on("end", function () {
     Piano.findById(req.params.id, function (err, foundPiano) {
       if (err) console.log("error: PUT /gallery/:id/addimg, Piano.findById: " + err);
       else {
-        updatedPiano = foundPiano;
-        updatedPiano.images = images;
-        updatedPiano.main_image = main_image;
-        console.log(updatedPiano);
-        updatedPiano.save(function (err) {
-          if (err) console.log("error: PUT /gallery/:id/addimg, updatedPiano.save() : " + err);
+        foundPiano.images = images;
+        foundPiano.main_image = main_image;
+        console.log(foundPiano);
+        foundPiano.save(function (err) {
+          if (err) console.log("error: PUT /gallery/:id/addimg, foundPiano.save() : " + err);
         });
         res.redirect("/gallery/" + req.params.id)
       }
     });
-    /*
-    Piano.findByIdAndUpdate(req.params.id, updatedPiano, function (err, updatedPiano) {
-      if (err) console.log("error: PUT /gallery/:id/addimg, Piano.findByIdAndUpdate: " + err);
-      else res.redirect("/gallery/" + req.params.id);
-    });*/
   });
 });
 
@@ -137,41 +129,79 @@ router.get("/:id/edit" /* TODO: logged in edit piano*/, function (req, res) {
 
 // UPDATE ->> Update route for fields
 router.put("/:id" /* TODO: logged in update piano */, function (req, res) {
-  var rb = req.body;
-  var updatedPiano = {
-    title: rb.title, make: rb.make, model: rb.model,
-    year: rb.year,   desc: rb.desc, body: rb.body,
-    l_price: rb.l_price, a_price: rb.a_price, yt_url: rb.yt_url
-  }
-  Piano.findByIdAndUpdate(req.params.id, updatedPiano, function (err, updatedPiano) {
+  console.log(req.body.piano);
+  Piano.findByIdAndUpdate(req.params.id, req.body.piano, function (err, updatedPiano) {
     if (err) console.log("error: PUT /gallery/:id, Piano.findByIdAndUpdate: " + err);
-    else res.redirect("/gallery");
-  })
+    else {
+      res.redirect("/gallery/" + req.params.id);
+    }
+  });
 });
 
+//////
 // UPDATE ->> Update route for images, i.e. add new images...
+// show
+router.get("/:id/chgimg", function (req, res) {
+  Piano.findById(req.params.id, function (err, foundPiano) {
+    if (err) console.log("error: GET /gallery/:id/chgimg, Piano.findById : " + err);
+    else {
+      page.title = "Add images to " + foundPiano.title;
+      res.render("gallery/chgimg", { page: page, piano: foundPiano });
+    }
+  })
+  
+});
+// put
 router.put("/:id/chgimg", function (req, res) {
-  // UNDONE: Add image to piano
-  res.redirect("/gallery/" + req.params.id);
-})
+  var form = formidable.IncomingForm();
+  form.uploadDir = imageDirectory + req.params.id;
+  var imgDir = imageDirectory + req.params.id;
+
+  form.parse(req, function (err, fields, files) {
+    console.log("PUT /gallery/:id/chgimg form parsed...")
+  });
+
+  var newImages = [];
+  form.on("file", function (name, file) {
+    fs.renameSync(file.path, imgDir + "\\" + file.name, function (err) {
+      if (err) console.log("error: PUT /gallery/:id/addimg fs.rename: " + err);
+    });
+    newImages.push(file.name);
+  });
+
+  form.on("end", function () {
+    if (newImages.length === 0) {
+      res.redirect("/gallery/" + req.params.id);
+    }
+    Piano.findById(req.params.id, function (err, foundPiano) {
+      if (err) console.log("error: PUT /gallery/:id/chgimg, Piano.findById : " + err);
+      else {
+        // HACK: Evidently mongoose $pushAll is deprecated, this is a workaround
+        var foundImages = foundPiano.images;
+        foundPiano.images = foundImages.concat(newImages);
+        foundPiano.save(function (err) {
+          if (err) console.log("error: PUT /gallery/:id/chgimg, foundPiano.save : " + err);
+          else res.redirect("/gallery/" + req.params.id + "/edit");
+        });
+      }
+    });
+  });
+});
 
 // DELETE ->> Delete route for images
 router.delete("/:id/delimg/:index", function (req, res) {
-  var updatedPiano = {};
-
   Piano.findById(req.params.id, function (err, foundPiano) {
-    updatedPiano = foundPiano;
-    updatedPiano.images.splice(req.params.index, 1);
+    var idx = foundPiano.images.indexOf(req.params.index);
+    foundPiano.images.splice(idx, 1);
     // remove image from the filesystem first
-    fs.unlink(imageDirectory + foundPiano.images[req.params.index], function (err) {
+    fs.unlink(imageDirectory + req.params.id + "/" + req.params.index, function (err) {
       if (err) console.log("error: DELETE /gallery/:id/delimg/:index, fs.unlink: " + err);
     });
-    console.log(updatedPiano);
-  });
-  // then remove it form the db
-  Piano.findByIdAndUpdate(req.params.id, updatedPiano, function (err, updatedPiano) {
-    if (err) console.log("error: DELETE /gallery/:id/delimg/:index, Piano.findByIdAndUpdate: " + err);
-    else res.redirect("/gallery/" + req.params.id + "/edit");
+
+    foundPiano.save(function (err) {
+      if (err) console.log("error: DELETE /:id/delimg/:index, updatedPiano.save() : " + err);
+      else res.redirect("/gallery/" + req.params.id + "/edit")
+    });
   });
 });
 

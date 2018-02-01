@@ -1,0 +1,14 @@
+﻿<% include ../partials/header %>
+<link href="/stylesheets/admin.css" rel="stylesheet" />
+
+<h1><%= page.title %></h1>
+
+<form action="/gallery/<%= piano._id %>/chgimg?_method=PUT" method="POST" enctype="multipart/form-data">
+  <input type="file" name="images" id="images" multiple="multiple" />
+  <ul id="list"></ul>
+  <button>Add Images</button>
+</form>
+
+<script src="/javascripts/gallery_add.js"></script>
+
+<% include ../partials/footer %>

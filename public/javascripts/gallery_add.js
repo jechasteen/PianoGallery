@@ -1,9 +1,6 @@
 ﻿// Script for route: /gallery/:id/addimg
 
 window.onload = function () {
-
-  //
-  // Handles loading the thumbnail images of selected files
   function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
 
@@ -24,10 +21,8 @@ window.onload = function () {
           var span = document.createElement('figure');
 
           span.innerHTML = ['<img class="thumb" src="', e.target.result,
-            '" title="', escape(theFile.name), '"/> <figcaption>',
-            '<input type="radio" id="main_image" name="main_image" value="', theFile.name,
-            '">', theFile.name, </figcaption>'].join('');
-
+            '" title="', escape(theFile.name), '"/><figcaption>',
+            theFile.name, '</figcaption>'].join('');
           document.getElementById('list').insertBefore(span, null);
 
           // --->>>  imageTable(evt.target.files);

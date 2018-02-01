@@ -30,6 +30,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="public\javascripts\gallery_add.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\javascripts\gallery_new.js">
       <SubType>Code</SubType>
     </Compile>
@@ -60,6 +63,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\gallery\addimg.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\gallery\chgimg.ejs">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\gallery\edit.ejs">

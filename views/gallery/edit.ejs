@@ -2,26 +2,26 @@
 
 <link href="/stylesheets/admin.css" rel="stylesheet" />
 
-<form action="/gallery/<%= piano._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-  <input type="text" name="title" value="<%= piano.title %>" />
-  <input type="text" name="make" value="<%= piano.make %>" />
-  <input type="text" name="model" value="<%= piano.model %>" />
-  <input type="number" name="year" value="<%= piano.year %>" />
-  <input type="text" name="desc" value="<%= piano.desc %>" />
-  <textarea name="body"><%= piano.body %></textarea>
-  <input type="number" name="l_price" value="<%= piano.l_price %>" min="0.01" step="0.01" />
-  <input type="number" name="a_price" value="<%= piano.a_price %>" min="0.01" step="0.01" />
-  <input type="text" name="yt_url" value="<%= piano.yt_url %>" />
+<form action="/gallery/<%= piano._id %>?_method=PUT" method="POST">
+  <input type="text" name="piano[title]" value="<%= piano.title %>" placeholder="Title"/>
+  <input type="text" name="piano[make]" value="<%= piano.make %>" placeholder="Make"/>
+  <input type="text" name="piano[model]" value="<%= piano.model %>" placeholder="Model"/>
+  <input type="number" name="piano[year]" value="<%= piano.year %>" placeholder="Year"/>
+  <input type="text" name="piano[desc]" value="<%= piano.desc %>" placeholder="Short Description"/>
+  <textarea name="body"><%= piano.body %>Long-form Description</textarea>
+  <input type="number" name="piano[l_price]" value="<%= piano.l_price %>" min="0.01" step="0.01" placeholder="List Price"/>
+  <input type="number" name="piano[a_price]" value="<%= piano.a_price %>" min="0.01" step="0.01" placeholder="Asking Price"/>
+  <input type="text" name="piano[yt_url]" value="<%= piano.yt_url %>" placeholder="YouTube URL"/>
   <button>Submit</button>
 </form>
 
 <% piano.images.forEach( function(img) { %>
-<img src="/images/<%= img %>" />
-<form action="/gallery/<%= piano._id %>/delimg/<%= piano.images.indexOf(img) %>?_method=DELETE" method="POST">
+<img width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
+<form action="/gallery/<%= piano._id %>/delimg/<%= img %>?_method=DELETE" method="POST">
   <button>Remove Image</button>
 </form>
   <% }); %>
 
-<script src="/javascripts/gallery_new.js"></script>
+  <a href="/gallery/<%= piano._id %>/chgimg">Add More Images</a>
 
 <% include ../partials/footer %>
