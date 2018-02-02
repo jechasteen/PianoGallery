@@ -57,12 +57,14 @@ router.put("/:id/addimg", function (req, res) {
   
   // Initialize Formidable
   var form = formidable.IncomingForm({ uploadDir: imgDir, multiples: true });
+
   form.parse(req, function (err, fields, files) {});
   // Set the main image from the form data
   var main_image = "";
   form.on("field", function (name, value) {
     if (name === "main_image") main_image = value;
   });
+
   // capture the image file names
   var images = []
   form.on("file", function (name, file) {

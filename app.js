@@ -8,12 +8,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var methodOverride = require('method-override');
+var utils = require("./utils")
 
 mongoose.connect(process.env.DBURL);
 
 var indexRoutes = require('./routes/index');
 var galleryRoutes = require('./routes/gallery');
-// var blogRoutes = require('./routes/blog');
+var blogRoutes = require('./routes/blog');
 
 var app = express();
 
@@ -34,7 +35,7 @@ app.use(methodOverride("_method"));
 
 app.use('/', indexRoutes);
 app.use('/gallery', galleryRoutes);
-// app.use('/blog', blogRoutes);
+app.use('/blog', blogRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -71,10 +72,6 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(process.env.PORT, process.env.IP, function () {
-  if (process.env.IP === '127.0.0.1') {
-    var host = "localhost";
-  } else {
-    var host = process.env.IP;
-  }
-  console.log("BHA Piano server listening at http://" + host + ":" + process.env.PORT);
+  console.log("BHA Piano server listening at http://" +
+    utils.Host(process.env.IP) + ":" + process.env.PORT);
 })

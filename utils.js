@@ -16,6 +16,11 @@ var utils = {
       yt_url: rb.yt_url
     });
     return newPiano;
+  },
+
+  Host: function (ip) {
+    if (ip === '127.0.0.1') return "localhost";
+    else return ip;
   }
 }
 

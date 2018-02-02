@@ -3,7 +3,7 @@
 # Do not track images
 /public/images
 # VS files
-/.vs
+/.vs/*
 /obj
 *.njsproj
 # git ignore
