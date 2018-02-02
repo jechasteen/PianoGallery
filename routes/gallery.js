@@ -29,8 +29,8 @@ router.get("/new" /* TODO: logged in new gallery */, function (req, res) {
 
 // CREATE
 router.post("/" /* TODO: logged in create piano*/, function (req, res) {
-  Piano.create(utils.pianoFromRequest(req.body), function (err, createdPiano) {
-    if (err) error.Route("post", req, err);
+  Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
+    if (err) error.Route("post", "Piano.create", req, err);
     else res.redirect("/gallery/" + createdPiano._id + "/addimg");
   });
 });

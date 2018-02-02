@@ -4,7 +4,7 @@ var pianoSchema = new mongoose.Schema({
   title: String,
   make: String,
   model: String,
-  year: Number,
+  year: Date,
   category: String,
   desc: String, // short description
   body: String, // full description

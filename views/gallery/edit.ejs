@@ -2,6 +2,8 @@
 
 <link href="/stylesheets/admin.css" rel="stylesheet" />
 
+<a href="/gallery/<%= piano._id %>">Back</a>
+
 <form action="/gallery/<%= piano._id %>?_method=PUT" method="POST">
   <input type="text" name="piano[title]" value="<%= piano.title %>" placeholder="Title"/>
   <input type="text" name="piano[make]" value="<%= piano.make %>" placeholder="Make"/>
