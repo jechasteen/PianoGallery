@@ -8,9 +8,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var methodOverride = require('method-override');
-var utils = require("./utils")
+var utils = require("./utils");
 
-mongoose.connect(process.env.DBURL);
+mongoose.connect(process.env.DBURL, { useMongoClient: true });
 
 var indexRoutes = require('./routes/index');
 var galleryRoutes = require('./routes/gallery');
@@ -24,8 +24,7 @@ var page = {};
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -30,6 +30,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="error.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="models\post.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="public\javascripts\gallery_add.js">
       <SubType>Code</SubType>
     </Compile>
@@ -59,6 +65,18 @@
     </Content>
     <Content Include="public\stylesheets\main.css" />
     <Content Include="README.md" />
+    <Content Include="views\blog\edit.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\blog\index.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\blog\new.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\blog\show.ejs">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\error.ejs">
       <SubType>Code</SubType>
     </Content>
