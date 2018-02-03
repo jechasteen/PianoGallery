@@ -88,6 +88,9 @@ router.put("/:id/addimg", function (req, res) {
   });
   // After all processing is done, save the array
   form.on("end", function () {
+    if (!fs.existsSync(imgDir)) {
+      fs.mkdirSync(imgDir);
+    }
     Piano.findById(req.params.id, function (err, foundPiano) {
       if (err) error.Route("PUT", "Piano.findById", req, err);
       else {
@@ -162,7 +165,11 @@ router.get("/:id/chgimg", function (req, res) {
 });
 // Push the added filenames to the piano
 router.put("/:id/chgimg", function (req, res) {
-  var form = formidable.IncomingForm({ uploadDir: imageDirectory + req.params.id, multiples: true });
+  var imgDir = imageDirectory + req.params.id;
+  var form = formidable.IncomingForm({ uploadDir: imgDir, multiples: true });
+  if (!fs.existsSync(imgDir)) {
+    fs.mkdirSync(imgDir);
+  }
 
   form.parse(req, function (err, fields, files) {});
   // Get the new images from admin
@@ -175,9 +182,6 @@ router.put("/:id/chgimg", function (req, res) {
   });
   // After files are finished, save piano
   form.on("end", function () {
-    if (newImages.length === 0) {
-      res.redirect("/gallery/" + req.params.id);
-    }
     Piano.findById(req.params.id, function (err, foundPiano) {
       if (err) error.Route("PUT", "Piano.findById", req, err);
       else {
