@@ -1,9 +1,10 @@
-﻿var mongoose = require("mongoose")
+﻿var mongoose = require("mongoose");
+var moment = require("moment");
 
 var postSchema = new mongoose.Schema({
   title: String,
   body: String,
-  date: { type: Date, default: Date.now },
+  date: { type: Date, default: moment },
   upDate: Date
 });
 

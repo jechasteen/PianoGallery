@@ -1,4 +1,5 @@
-﻿'use strict';
+﻿// TODO: Refactor the file so that all of the admin routes require auth
+'use strict';
 var express = require("express");
 var router = express.Router();
 var Piano = require("../models/piano");
@@ -12,7 +13,9 @@ var uploadDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\uploads\\";
 
 var page = {};
 
+//
 // INDEX
+//
 router.get("/", function (req, res) {
   console.log(req.originalUrl)
   Piano.find({}, function (err, allPianos) {
@@ -21,20 +24,30 @@ router.get("/", function (req, res) {
   }); 
 });
 
+//
 // NEW
+//
 router.get("/new" /* TODO: logged in new gallery */, function (req, res) {
   page.title = "Create New Piano";
   res.render("gallery/new", { page: page });
 });
 
 // CREATE
+//
+// -> Post the form data
 router.post("/" /* TODO: logged in create piano*/, function (req, res) {
-  Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
-    if (err) error.Route("post", "Piano.create", req, err);
-    else res.redirect("/gallery/" + createdPiano._id + "/addimg");
+  Piano.find({ title: req.body.title }, function (err, foundPiano) {
+    if (err) {  // piano not found
+      Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
+        if (err) error.Route("post", "Piano.create", req, err);
+        else res.redirect("/gallery/" + createdPiano._id + "/addimg");
+      });
+    } else {
+      utils.updateThenAddImg(req, res, foundPiano._id);
+    }
   });
 });
-// -> CREATE/Add Images
+// -> SHOW Add Images Form
 router.get("/:id/addimg", function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) error.Route("get", "Piano.findById", req, err);
@@ -44,8 +57,8 @@ router.get("/:id/addimg", function (req, res) {
     }
   });
 });
-// -> CREATE/Update Piano.images and .main_image
-// Really an UPDATE route
+// -> CREATE/Update Piano.images[] and .main_image
+// *** Really an UPDATE route ADDS initial images.
 router.put("/:id/addimg", function (req, res) {
   // make new directory for new piano named Piano._id
   var imgDir = imageDirectory + req.params.id;
@@ -88,8 +101,25 @@ router.put("/:id/addimg", function (req, res) {
     });
   });
 });
+// -> CREATE Select the main (gallery) image
+router.post("/:id/mainimg", function (req, res) {
+  Piano.findById(req.params.id, function (err, foundPiano) {
+    if (err) error.Route("PUT", "Piano.findById", req, err);
+    else {
+      foundPiano.main_image = req.body.main_image;
+      foundPiano.save(function (err) {
+        if (err) error.Route("PUT", "Piano.findById -> Piano.save", req, err);
+        else {
+          res.redirect("/gallery/" + req.params.id);
+        }
+      });
+    }
+  });
+});
 
+//
 // SHOW
+//
 router.get("/:id", function (req, res) {
   //TODO: Piano body should render git style markdown
   Piano.findById(req.params.id, function (err, foundPiano) {
@@ -98,14 +128,16 @@ router.get("/:id", function (req, res) {
   })
 });
 
+//
 // EDIT
+//
+// Show edit form
 router.get("/:id/edit" /* TODO: logged in edit piano*/, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     page.title = "Editing " + foundPiano.title;
     res.render("gallery/edit", { page: page, piano: foundPiano });
   });
 });
-
 // UPDATE ->> Update route for fields
 router.put("/:id" /* TODO: logged in update piano */, function (req, res) {
   Piano.findByIdAndUpdate(req.params.id, req.body.piano, function (err, updatedPiano) {
@@ -114,9 +146,10 @@ router.put("/:id" /* TODO: logged in update piano */, function (req, res) {
   });
 });
 
-//////
+//
 // UPDATE ->> Update route for images, i.e. add new images...
-// show
+//
+// show add images form
 router.get("/:id/chgimg", function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) error.Route("GET", "Piano.findById", req, err);
@@ -127,7 +160,7 @@ router.get("/:id/chgimg", function (req, res) {
   })
   
 });
-// put
+// Push the added filenames to the piano
 router.put("/:id/chgimg", function (req, res) {
   var form = formidable.IncomingForm({ uploadDir: imageDirectory + req.params.id, multiples: true });
 

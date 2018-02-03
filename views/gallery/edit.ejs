@@ -22,6 +22,9 @@
 <form action="/gallery/<%= piano._id %>/delimg/<%= img %>?_method=DELETE" method="POST">
   <button>Remove Image</button>
 </form>
+<form action="/gallery/<%= piano._id %>/mainimg" method="POST">
+  <button name="main_image" value="<%= img %>">Make Main Image</button>
+</form>
   <% }); %>
 
   <a href="/gallery/<%= piano._id %>/chgimg">Add More Images</a>

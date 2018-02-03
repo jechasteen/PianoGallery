@@ -1,4 +1,6 @@
 ﻿var Piano = require("./models/piano");
+var moment = require("moment");
+var error = require("./error.js");
 
 var utils = {
   spaceToUnderscore: function (string) {
@@ -22,6 +24,15 @@ var utils = {
   Host: function (ip) {
     if (ip === '127.0.0.1') return "localhost";
     else return ip;
+  },
+
+  updateThenAddImg: function (req, res, id) {
+    Piano.findByIdAndUpdate(id, this.pianoFromRequest(req),function (err, foundPiano) {
+      if (err) err.Utils("sendToAddImg", "Piano.findByIdAndUpdate", err);
+      else {
+        res.redirect("/gallery/" + foundPiano._id + "/addimg");
+      }
+    });    
   }
 }
 
