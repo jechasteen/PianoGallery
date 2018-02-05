@@ -1,0 +1,16 @@
+﻿<h1><%= page.title %></h1>
+
+<form action="/admin/set?_method=PUT" method="POST">
+  <input type="text" name="attrib[name]" placeholder="Site Name" value="<%= attrib.name %>" />
+  <input type="text" name="attrib[headImg]" placeholder="Header Image" value="<%= attrib.headImg %>" />
+  <input type="text" name="attrib[footImg]" placeholder="Footer Image" value="<%= attrib.footImg %>" />
+  <input type="text" name="attrib[blogImg]" placeholder="Blog Image" value="<%= attrib.blogImg %>" />
+  <textarea name="attrib[body]" placeholder="Welcome Message"><%= attrib.body %></textarea>
+  <input type="text" name="attrib[feature[title]]" value="<%= attrib.feature.title %>" placeholder="Feature Title" />
+  <textarea name="attrib[feature[body]]" value="<%= attrib.feature.body %>" placeholder="Feature Text"></textarea>
+  <input type="text" name="attrib[feature[image]]" value="<%= attrib.feature.image %>" placeholder="Feature Image" />
+  <input type="text" name="attrib[feature[url]]" value="<%= attrib.feature.url %>" placeholder="Feature URL" />
+  <input type="submit" name="submit" value="submit" />
+</form>
+
+<a href="/admin/comments">View/Edit Comments</a>
