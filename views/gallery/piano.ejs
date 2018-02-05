@@ -1,10 +1,9 @@
 ﻿<% include ../partials/header %>
+<% if (page.admin){ %>
+  <% include ../partials/admin_piano %>
+<% } %>
 
-<form action="/gallery/<%= piano._id %>?_method=DELETE" method="POST">
-  <button>Remove Piano</button>
-</form>
 <a href="/gallery">Back to Gallery</a>
-<a href="/gallery/<%= piano._id %>/edit">Edit Piano</a>
 
 <%= piano.title %>
 $<%= piano.l_price %>
@@ -14,7 +13,7 @@ $<%= piano.a_price %>
 <%= piano.year %>
 <%= piano.body %><br>
 <% piano.images.forEach( function(img) { %>
-  <img width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
+<img width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
 <% }); %>
 
 <% include ../partials/footer %>

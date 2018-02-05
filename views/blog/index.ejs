@@ -1,14 +1,16 @@
 ﻿<% include ../partials/header %>
 
+<% if (page.admin){ %>
+  <% include ../partials/admin_blog %>
+<% } %>
+
 <h1>Blog Index Route</h1>
 
-<a href="/blog/new">Create a new post</a>
-
 <% posts.forEach( function(post){ %>
-  <h1><a href="/blog/<%= post._id %>"><%= post.title %></a></h1>
-  <p><%= post.body %></p>
-  <p><%= post.date %></p>
-  
+<h1><a href="/blog/<%= post._id %>"><%= post.title %></a></h1>
+<p><%= post.body %></p>
+<p><%= post.date %></p>
+
 <% }); %>
 
 <% include ../partials/footer %>

@@ -16,6 +16,7 @@
     "debug": "^2.2.0",
     "ejs": "^2.5.7",
     "express": "^4.14.0",
+    "express-session": "^1.15.6",
     "formidable": "^1.1.1",
     "fs": "0.0.1-security",
     "jquery": "^3.3.1",
@@ -27,8 +28,10 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.4.0",
     "popper.js": "^1.12.9",
+    "prompt": "^1.0.0",
     "pug": "^2.0.0-beta6",
     "request": "^2.83.0",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "terminal-menu": "^2.1.1"
   }
 }

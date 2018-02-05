@@ -1,12 +1,12 @@
-﻿// TODO: Refactor the file so that all of the admin routes require auth
-'use strict';
+﻿'use strict';
 var express = require("express");
 var router = express.Router();
 var Piano = require("../models/piano");
 var formidable = require("formidable");
 var fs = require("fs");
 var utils = require("../utils.js");
-var error = require("../error.js")
+var error = require("../error.js");
+var middleware = require("../middleware");
 
 var imageDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\";
 var uploadDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\uploads\\";
@@ -17,9 +17,13 @@ var page = {};
 // INDEX
 //
 router.get("/", function (req, res) {
-  console.log(req.originalUrl)
   Piano.find({}, function (err, allPianos) {
     page.title = "All Pianos";
+    if (req.isAuthenticated()) {
+      page.admin = true;
+    } else {
+      page.admin = false;
+    }
     res.render("gallery/index", { page: page, pianos: allPianos });
   }); 
 });
@@ -27,7 +31,7 @@ router.get("/", function (req, res) {
 //
 // NEW
 //
-router.get("/new" /* TODO: logged in new gallery */, function (req, res) {
+router.get("/new", middleware.isLoggedIn, function (req, res) {
   page.title = "Create New Piano";
   res.render("gallery/new", { page: page });
 });
@@ -35,7 +39,7 @@ router.get("/new" /* TODO: logged in new gallery */, function (req, res) {
 // CREATE
 //
 // -> Post the form data
-router.post("/" /* TODO: logged in create piano*/, function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
   Piano.find({ title: req.body.title }, function (err, foundPiano) {
     if (err) {  // piano not found
       Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
@@ -48,7 +52,7 @@ router.post("/" /* TODO: logged in create piano*/, function (req, res) {
   });
 });
 // -> SHOW Add Images Form
-router.get("/:id/addimg", function (req, res) {
+router.get("/:id/addimg", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) error.Route("get", "Piano.findById", req, err);
     else {
@@ -59,7 +63,7 @@ router.get("/:id/addimg", function (req, res) {
 });
 // -> CREATE/Update Piano.images[] and .main_image
 // *** Really an UPDATE route ADDS initial images.
-router.put("/:id/addimg", function (req, res) {
+router.put("/:id/addimg", middleware.isLoggedIn, function (req, res) {
   // make new directory for new piano named Piano._id
   var imgDir = imageDirectory + req.params.id;
   if (!fs.existsSync(imgDir)) {   // BLOCKING
@@ -105,7 +109,7 @@ router.put("/:id/addimg", function (req, res) {
   });
 });
 // -> CREATE Select the main (gallery) image
-router.post("/:id/mainimg", function (req, res) {
+router.post("/:id/mainimg", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) error.Route("PUT", "Piano.findById", req, err);
     else {
@@ -121,7 +125,7 @@ router.post("/:id/mainimg", function (req, res) {
 });
 
 //
-// SHOW
+// SHOW  This is a PUBLIC Route!!
 //
 router.get("/:id", function (req, res) {
   //TODO: Piano body should render git style markdown
@@ -135,14 +139,14 @@ router.get("/:id", function (req, res) {
 // EDIT
 //
 // Show edit form
-router.get("/:id/edit" /* TODO: logged in edit piano*/, function (req, res) {
+router.get("/:id/edit", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     page.title = "Editing " + foundPiano.title;
     res.render("gallery/edit", { page: page, piano: foundPiano });
   });
 });
 // UPDATE ->> Update route for fields
-router.put("/:id" /* TODO: logged in update piano */, function (req, res) {
+router.put("/:id", middleware.isLoggedIn, function (req, res) {
   Piano.findByIdAndUpdate(req.params.id, req.body.piano, function (err, updatedPiano) {
     if (err) error.Route("PUT", "Piano.findByIdAndUpdate", req, err);
     else res.redirect("/gallery/" + req.params.id);
@@ -153,7 +157,7 @@ router.put("/:id" /* TODO: logged in update piano */, function (req, res) {
 // UPDATE ->> Update route for images, i.e. add new images...
 //
 // show add images form
-router.get("/:id/chgimg", function (req, res) {
+router.get("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) error.Route("GET", "Piano.findById", req, err);
     else {
@@ -164,7 +168,7 @@ router.get("/:id/chgimg", function (req, res) {
   
 });
 // Push the added filenames to the piano
-router.put("/:id/chgimg", function (req, res) {
+router.put("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
   var imgDir = imageDirectory + req.params.id;
   var form = formidable.IncomingForm({ uploadDir: imgDir, multiples: true });
   if (!fs.existsSync(imgDir)) {
@@ -199,7 +203,7 @@ router.put("/:id/chgimg", function (req, res) {
 });
 
 // DELETE ->> Delete route for images
-router.delete("/:id/delimg/:index", function (req, res) {
+router.delete("/:id/delimg/:index", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     var idx = foundPiano.images.indexOf(req.params.index);
     foundPiano.images.splice(idx, 1);
@@ -216,7 +220,7 @@ router.delete("/:id/delimg/:index", function (req, res) {
 });
 
 // DESTROY
-router.delete("/:id" /* TODO: logged in destroy piano */, function (req, res) {
+router.delete("/:id", middleware.isLoggedIn, function (req, res) {
   // First find and remove all associated images
   Piano.findById(req.params.id, function (err, foundPiano) {
     foundPiano.images.forEach(function (img) {

@@ -33,6 +33,10 @@
     <Compile Include="error.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="middleware.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="models\admin.js" />
     <Compile Include="models\attributes.js">
       <SubType>Code</SubType>
     </Compile>
@@ -45,6 +49,9 @@
     <Compile Include="public\javascripts\gallery_new.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="routes\admin.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="routes\gallery.js">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +62,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="routes\index.js" />
+    <Compile Include="setup.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="utils.js">
       <SubType>Code</SubType>
     </Compile>
@@ -67,6 +77,12 @@
     <Content Include="public\stylesheets\main.css" />
     <Content Include="README.md" />
     <Content Include="views\admin\index.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\admin\login.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\admin\register.ejs">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\blog\edit.ejs">
@@ -103,6 +119,15 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\index.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\partials\admin_blog.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\partials\admin_gallery.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\partials\admin_piano.ejs">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\partials\footer.ejs">

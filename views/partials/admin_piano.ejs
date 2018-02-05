@@ -1,0 +1,9 @@
+﻿<% if (page.admin) { %>
+<div></div>
+<a href="/gallery/<%= piano._id %>/edit">Edit Piano</a>
+<form action="/gallery/<%= piano._id %>?_method=DELETE" method="POST">
+  <button>Remove Piano</button>
+</form>
+<a href="/admin/logout">Log Out</a>
+</div>
+<% } else {}%>
