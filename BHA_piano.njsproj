@@ -43,6 +43,18 @@
     <Compile Include="models\post.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="public\javascripts\bootstrap\alert.js" />
+    <Compile Include="public\javascripts\bootstrap\button.js" />
+    <Compile Include="public\javascripts\bootstrap\carousel.js" />
+    <Compile Include="public\javascripts\bootstrap\collapse.js" />
+    <Compile Include="public\javascripts\bootstrap\dropdown.js" />
+    <Compile Include="public\javascripts\bootstrap\index.js" />
+    <Compile Include="public\javascripts\bootstrap\modal.js" />
+    <Compile Include="public\javascripts\bootstrap\popover.js" />
+    <Compile Include="public\javascripts\bootstrap\scrollspy.js" />
+    <Compile Include="public\javascripts\bootstrap\tab.js" />
+    <Compile Include="public\javascripts\bootstrap\tooltip.js" />
+    <Compile Include="public\javascripts\bootstrap\util.js" />
     <Compile Include="public\javascripts\gallery_add.js">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +74,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="routes\index.js" />
+    <Compile Include="sandbox.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="seed.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="setup.js">
       <SubType>Code</SubType>
     </Compile>
@@ -71,6 +89,18 @@
     <Content Include="design.md" />
     <Content Include="package.json" />
     <Content Include="public\images\site\bha-favicon.ico" />
+    <Content Include="public\javascripts\bootstrap\alert.js.map" />
+    <Content Include="public\javascripts\bootstrap\button.js.map" />
+    <Content Include="public\javascripts\bootstrap\carousel.js.map" />
+    <Content Include="public\javascripts\bootstrap\collapse.js.map" />
+    <Content Include="public\javascripts\bootstrap\dropdown.js.map" />
+    <Content Include="public\javascripts\bootstrap\index.js.map" />
+    <Content Include="public\javascripts\bootstrap\modal.js.map" />
+    <Content Include="public\javascripts\bootstrap\popover.js.map" />
+    <Content Include="public\javascripts\bootstrap\scrollspy.js.map" />
+    <Content Include="public\javascripts\bootstrap\tab.js.map" />
+    <Content Include="public\javascripts\bootstrap\tooltip.js.map" />
+    <Content Include="public\javascripts\bootstrap\util.js.map" />
     <Content Include="public\stylesheets\admin.css">
       <SubType>Code</SubType>
     </Content>
@@ -124,7 +154,13 @@
     <Content Include="views\partials\admin_blog.ejs">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\partials\admin_footer.ejs">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="views\partials\admin_gallery.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\partials\admin_header.ejs">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\partials\admin_piano.ejs">
@@ -143,6 +179,7 @@
   <ItemGroup>
     <Folder Include="models\" />
     <Folder Include="public\images\site\" />
+    <Folder Include="public\javascripts\bootstrap\" />
     <Folder Include="uploads\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
