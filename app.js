@@ -1,6 +1,8 @@
 ﻿'use strict';
 var page = {};
 
+var seed = require("./seed");
+
 var debug = require('debug');
 var express = require('express');
 var path = require('path');
@@ -16,6 +18,9 @@ var utils = require("./utils");
 var Admin = require("./models/admin");
 
 mongoose.connect(process.env.DBURL, { useMongoClient: true });
+
+// Seed the DB
+seed(50);
 
 var indexRoutes = require('./routes/index');
 var galleryRoutes = require('./routes/gallery');

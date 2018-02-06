@@ -9,4 +9,8 @@
 # git ignore
 /.git
 .gitignore
+#ignore bootstrap
+/public/javascripts/bootstrap/*
+#ignore gen files and sandbox
 
+sandbox.js

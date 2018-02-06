@@ -17,6 +17,7 @@ var page = {};
 // INDEX
 //
 router.get("/", function (req, res) {
+  var cat;
   Piano.find({}, function (err, allPianos) {
     page.title = "All Pianos";
     if (req.isAuthenticated()) {
