@@ -26,6 +26,11 @@ router.get("/", function (req, res) {
 
 // NEW - New post form
 router.get("/new", middleware.isLoggedIn, function (req, res) {
+  if (req.isAuthenticated) {
+    page.admin = true;
+  } else {
+    page.admin = false;
+  }
   page.title = "New Post";
   res.render("blog/new", { page: page });
 });

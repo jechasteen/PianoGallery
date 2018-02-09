@@ -1,4 +1,7 @@
 ﻿<% include ../partials/header %>
+
+<link href="/stylesheets/admin.css" rel="stylesheet" />
+
 <a href="/gallery">Gallery</a> -
 <a href="/admin">Admin Panel</a>
 
@@ -115,39 +118,39 @@
       <div class="card-body">
         <div class="row">
           <% piano.images.forEach( function(img) { %>
-            <div class="col-sm-4">
-              <div class="card mb-3">
-                <div class="card-header">
-                  <h6 class="text-center"><%= img %></h6>
+          <div class="col-sm-4">
+            <div class="card mb-3">
+              <div class="card-header">
+                <h6 class="text-center"><%= img %></h6>
+              </div>
+              <div class="card-body">
+                <div class="card-img-top">
+                  <img class="mx-auto d-block" width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
                 </div>
-                <div class="card-body">
-                  <div class="card-img-top">
-                    <img class="mx-auto d-block" width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
-                  </div>
-                </div>
-                <div class="card-footer">
-                  <div class="btn-group ml-4">
-                    <form class="" action="/gallery/<%= piano._id %>/delimg/<%= img %>?_method=DELETE" method="POST">
-                      <button class="btn btn-danger btn-sm mr-1">Remove Image</button>
-                    </form>
-                    <% if(img === piano.main_image) { %>
-                    <form>
-                      <button class="btn btn-success btn-sm" disabled>Make Main Image</button>
-                    </form>
-                    <% } else { %>
-                    <form class="" action="/gallery/<%= piano._id %>/mainimg" method="POST">
-                      <button class="btn btn-success btn-sm" name="main_image" value="<%= img %>">Make Main Image</button>
-                    </form>
-                    <% } %>
-                  </div>               
+              </div>
+              <div class="card-footer">
+                <div class="btn-group ml-4">
+                  <form class="" action="/gallery/<%= piano._id %>/delimg/<%= img %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger btn-sm mr-1">Remove Image</button>
+                  </form>
+                  <% if(img === piano.main_image) { %>
+                  <form>
+                    <button class="btn btn-success btn-sm" disabled>Make Main Image</button>
+                  </form>
+                  <% } else { %>
+                  <form class="" action="/gallery/<%= piano._id %>/mainimg" method="POST">
+                    <button class="btn btn-success btn-sm" name="main_image" value="<%= img %>">Make Main Image</button>
+                  </form>
+                  <% } %>
                 </div>
               </div>
             </div>
-            <% }); %>
           </div>
-
-          <a href="/gallery/<%= piano._id %>/chgimg" class="btn btn-warning float-right">Add More Images</a>
+          <% }); %>
         </div>
+
+        <a href="/gallery/<%= piano._id %>/chgimg" class="btn btn-warning float-right">Add More Images</a>
+      </div>
     </div>
   </div>
 </div>
