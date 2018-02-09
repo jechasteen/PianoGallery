@@ -1,9 +1,10 @@
 ﻿<% if (page.admin) { %>
-<div></div>
-<a href="/gallery/<%= piano._id %>/edit">Edit Piano</a>
-<form action="/gallery/<%= piano._id %>?_method=DELETE" method="POST">
-  <button>Remove Piano</button>
-</form>
-<a href="/admin/logout">Log Out</a>
+<div class="sticky-top admin-nav p-3">
+  <form action="/gallery/<%= piano._id %>?_method=DELETE" method="POST">
+    <a href="/gallery/<%= piano._id %>/edit" class="btn btn-warning">Edit</a>
+    <button class="btn btn-danger">Remove</button>
+    <a href="/admin/logout" class="btn btn-danger float-right ml-1">Log Out</a>
+    <a href="/admin" class="btn btn-success float-right ml-1">Admin Panel</a>
+  </form>
 </div>
 <% } else {}%>

@@ -28,7 +28,12 @@ var utils = {
 
   updateThenAddImg: function (req, res, id) {
     Piano.findByIdAndUpdate(id, this.pianoFromRequest(req),function (err, foundPiano) {
-      if (err) err.Utils("sendToAddImg", "Piano.findByIdAndUpdate", err);
+      if (err) {
+        err.Utils("sendToAddImg", "Piano.findByIdAndUpdate", err);
+        res.redirect("back");
+      } else if (foundPiano === null) {
+        res.redirect("/gallery/new");
+      }
       else {
         res.redirect("/gallery/" + foundPiano._id + "/addimg");
       }

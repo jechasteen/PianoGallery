@@ -1,19 +1,45 @@
 ﻿<% include ../partials/header %>
 
-<link href="/stylesheets/admin.css" rel="stylesheet" />
-
 <a href="/gallery/<%= piano._id %>">Back</a>
 
 <form action="/gallery/<%= piano._id %>?_method=PUT" method="POST">
-  <input type="text" name="piano[title]" value="<%= piano.title %>" placeholder="Title"/>
-  <input type="text" name="piano[make]" value="<%= piano.make %>" placeholder="Make"/>
-  <input type="text" name="piano[model]" value="<%= piano.model %>" placeholder="Model"/>
-  <input type="number" name="piano[year]" value="<%= piano.year %>" placeholder="Year"/>
-  <input type="text" name="piano[desc]" value="<%= piano.desc %>" placeholder="Short Description"/>
-  <textarea name="body"><%= piano.body %>Long-form Description</textarea>
-  <input type="number" name="piano[l_price]" value="<%= piano.l_price %>" min="0.01" step="0.01" placeholder="List Price"/>
-  <input type="number" name="piano[a_price]" value="<%= piano.a_price %>" min="0.01" step="0.01" placeholder="Asking Price"/>
-  <input type="text" name="piano[yt_url]" value="<%= piano.yt_url %>" placeholder="YouTube URL"/>
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" name="piano[title]" value="<%= piano.title %>" placeholder="Title" />
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="make">Make</label>
+      <input type="text" class="form-control" id="make" name="piano[make]" value="<%= piano.make %>" placeholder="Make" />
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="model">Model</label>
+      <input type="text" id="model" class="form-control" name="piano[model]" value="<%= piano.model %>" placeholder="Model" />
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="year">Year</label>
+      <input type="number" id="year" class="form-control" name="piano[year]" value="<%= piano.year %>" placeholder="Year" />
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="desc">Short Description</label>
+      <input type="text" id="desc" class="form-control" name="piano[desc]" value="<%= piano.desc %>" placeholder="Short Description" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="desc">Short Description</label>
+      <textarea name="body" id="desc" class="form-control"><%= piano.body %>Long-form Description</textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="l_price">List Price</label>
+      <input type="number" class="form-control" id="l_price" name="piano[l_price]" value="<%= piano.l_price %>" min="0.01" step="0.01" placeholder="List Price" />
+    </div>
+    
+  </div>
+  <input type="number" name="piano[a_price]" value="<%= piano.a_price %>" min="0.01" step="0.01" placeholder="Asking Price" />
+  <input type="text" name="piano[yt_url]" value="<%= piano.yt_url %>" placeholder="YouTube URL" />
   <button>Submit</button>
 </form>
 

@@ -1,8 +1,21 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!doctype html>
+<html lang="en">
 <head>
-  <title>Admin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Admin Tools for BHA Piano Gallery and Blog">
+  <meta name="author" content="Jonathan Chasteen">
+  <link rel="icon" href="/favicon.ico">
 
-  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
-  <link href="/stylesheets/admin.css" rel="stylesheet" />
+  <title><%= page.title %></title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <% if (page.title === "Login") { %>
+    <link href="/stylesheets/login.css" rel="stylesheet">
+  <% } else { %> 
+    <link href="/stylesheets/admin.css" rel="stylesheet" />
+  <% } %>
 </head>
-<body>

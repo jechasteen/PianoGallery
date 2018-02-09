@@ -1,7 +1,10 @@
 ﻿<% if (page.admin) { %>
-<a href="/blog/<%= post._id %>/edit">Edit Post</a>
-<form action="/blog/<%= post._id %>?_method=DELETE" method="POST">
-  <button>Delete Post</button>
-</form>
-<a href="/admin/logout">Log Out</a>
+<div class="sticky-top admin-nav p-3">
+  <form action="/blog/<%= post._id %>?_method=DELETE" method="POST">
+    <a href="/blog/<%= post._id %>/edit" class="btn btn-warning">Edit Post</a>
+    <button class="btn btn-danger">Delete Post</button>
+    <a href="/admin/logout" class="btn btn-danger float-right ml-1">Log Out</a>
+    <a href="/admin" class="btn btn-success float-right ml-1">Admin Panel</a>
+  </form>
+</div>
 <% } else {}%>

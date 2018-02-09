@@ -1,4 +1,6 @@
-﻿'use strict';
+﻿// TODO: Find places where res.redirect(...) can be replaced with "back"
+
+'use strict';
 var express = require("express");
 var router = express.Router();
 var Piano = require("../models/piano");
@@ -44,18 +46,29 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
   Piano.find({ title: req.body.title }, function (err, foundPiano) {
     if (err) {  // piano not found
       Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
-        if (err) error.Route("post", "Piano.create", req, err);
+        if (err) {
+          error.Route("post", "Piano.create", req, err);
+          // TODO: Piano Create Route FLASH message
+          res.redirect("/gallery/new");
+        }
         else res.redirect("/gallery/" + createdPiano._id + "/addimg");
       });
     } else {
-      utils.updateThenAddImg(req, res, foundPiano._id);
+      if (foundPiano === null) {
+        res.redirect("/gallery/new")
+      } else {
+        utils.updateThenAddImg(req, res, foundPiano._id);
+      }
     }
   });
 });
 // -> SHOW Add Images Form
 router.get("/:id/addimg", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
-    if (err) error.Route("get", "Piano.findById", req, err);
+    if (err) {
+      error.Route("get", "Piano.findById", req, err);
+      res.redirect("/gallery/" + req.params.id);
+    }
     else {
       page.title = "Add images to new piano: " + foundPiano.title;
       res.render("gallery/addimg", {page: page, piano: foundPiano });
@@ -69,7 +82,10 @@ router.put("/:id/addimg", middleware.isLoggedIn, function (req, res) {
   var imgDir = imageDirectory + req.params.id;
   if (!fs.existsSync(imgDir)) {   // BLOCKING
     fs.mkdir(imageDirectory + req.params.id, function (err) {
-      if (err) error.Route("PUT", "fs.mkdir", req, err);
+      if (err) {
+        error.Route("PUT", "fs.mkdir", req, err);
+        res.redirect("/gallery/" + req.params.id);
+      }
     });
   } else error.Misc("Folder already existed, continuing...");
   
@@ -87,7 +103,10 @@ router.put("/:id/addimg", middleware.isLoggedIn, function (req, res) {
   var images = []
   form.on("file", function (name, file) {
     fs.renameSync(file.path, imgDir + "\\" + file.name, function (err) {
-      if (err) error.Route("PUT", "fs.rename", req, err);
+      if (err) {
+        error.Route("PUT", "fs.rename", req, err);
+        res.redirect("/gallery/" + req.params.id);
+      }
     });
     images.push(file.name);
   });
@@ -96,13 +115,19 @@ router.put("/:id/addimg", middleware.isLoggedIn, function (req, res) {
     if (!fs.existsSync(imgDir)) {
       fs.mkdirSync(imgDir);
     }
-    Piano.findById(req.params.id, function (err, foundPiano) {
-      if (err) error.Route("PUT", "Piano.findById", req, err);
+    Piano.findById(req.params.id, function (err, foundPiano, ) {
+      if (err) {
+        error.Route("PUT", "Piano.findById", req, err);
+        res.redirect("/gallery/" + req.params.id);
+      }
       else {
         foundPiano.images = images;
         foundPiano.main_image = main_image;
         foundPiano.save(function (err) {
-          if (err) error.Route("PUT", "foundPiano.save", req, err);
+          if (err) {
+            error.Route("PUT", "foundPiano.save", req, err);
+            res.redirect("/gallery/" + req.params.id)
+          }
         });
         res.redirect("/gallery/" + req.params.id)
       }
@@ -112,14 +137,18 @@ router.put("/:id/addimg", middleware.isLoggedIn, function (req, res) {
 // -> CREATE Select the main (gallery) image
 router.post("/:id/mainimg", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
-    if (err) error.Route("PUT", "Piano.findById", req, err);
+    if (err) {
+      error.Route("PUT", "Piano.findById", req, err);
+      res.redirect("/gallery/" + req.params.id);
+    }
     else {
       foundPiano.main_image = req.body.main_image;
       foundPiano.save(function (err) {
-        if (err) error.Route("PUT", "Piano.findById -> Piano.save", req, err);
-        else {
+        if (err) {
+          error.Route("PUT", "Piano.findById -> Piano.save", req, err);
           res.redirect("/gallery/" + req.params.id);
         }
+        else res.redirect("/gallery/" + req.params.id);
       });
     }
   });
@@ -131,8 +160,13 @@ router.post("/:id/mainimg", middleware.isLoggedIn, function (req, res) {
 router.get("/:id", function (req, res) {
   //TODO: Piano body should render git style markdown
   Piano.findById(req.params.id, function (err, foundPiano) {
-    page.title = foundPiano.title;
-    res.render("gallery/piano", { page: page, piano: foundPiano });
+    if (err) {
+      error.Route("GET", "Piano.findById", req, err);
+      res.redirect("/gallery");
+    } else {
+      page.title = foundPiano.title;
+      res.render("gallery/piano", { page: page, piano: foundPiano });
+    }
   })
 });
 
@@ -142,14 +176,22 @@ router.get("/:id", function (req, res) {
 // Show edit form
 router.get("/:id/edit", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
-    page.title = "Editing " + foundPiano.title;
-    res.render("gallery/edit", { page: page, piano: foundPiano });
+    if (err) {
+      error.Route("GET", "Piano.findById", req, err);
+      res.redirect("/gallery/" + req.params.id);
+    } else {
+      page.title = "Editing " + foundPiano.title;
+      res.render("gallery/edit", { page: page, piano: foundPiano });
+    }
   });
 });
 // UPDATE ->> Update route for fields
 router.put("/:id", middleware.isLoggedIn, function (req, res) {
   Piano.findByIdAndUpdate(req.params.id, req.body.piano, function (err, updatedPiano) {
-    if (err) error.Route("PUT", "Piano.findByIdAndUpdate", req, err);
+    if (err) {
+      error.Route("PUT", "Piano.findByIdAndUpdate", req, err);
+      res.redirect("/gallery/" + req.params.id + "/edit");
+    }
     else res.redirect("/gallery/" + req.params.id);
   });
 });
@@ -160,7 +202,10 @@ router.put("/:id", middleware.isLoggedIn, function (req, res) {
 // show add images form
 router.get("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
-    if (err) error.Route("GET", "Piano.findById", req, err);
+    if (err) {
+      error.Route("GET", "Piano.findById", req, err);
+      res.redirect("/gallery/" + req.params.id + "/chgimg");
+    }
     else {
       page.title = "Add images to " + foundPiano.title;
       res.render("gallery/chgimg", { page: page, piano: foundPiano });
@@ -172,19 +217,25 @@ router.get("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
 router.put("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
   var imgDir = imageDirectory + req.params.id;
   var form = formidable.IncomingForm({ uploadDir: imgDir, multiples: true });
+
   if (!fs.existsSync(imgDir)) {
     fs.mkdirSync(imgDir);
   }
 
-  form.parse(req, function (err, fields, files) {});
+  form.parse(req, function (err, fields, files) { });
+
   // Get the new images from admin
   var newImages = [];
   form.on("file", function (name, file) {
     fs.renameSync(file.path, form.uploadDir + "\\" + file.name, function (err) {
-      if (err) error.Route("PUT", "fs.rename", req, err);
+      if (err) {
+        error.Route("PUT", "fs.rename", req, err);
+        res.redirect("/gallery/" + req.params.id + "/chgimg");
+      }
     });
     newImages.push(file.name);
   });
+
   // After files are finished, save piano
   form.on("end", function () {
     Piano.findById(req.params.id, function (err, foundPiano) {
@@ -193,9 +244,11 @@ router.put("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
         // HACK: Evidently mongoose $pushAll is deprecated, this is a workaround
         var foundImages = foundPiano.images;
         foundPiano.images = foundImages.concat(newImages);
-        //
         foundPiano.save(function (err) {
-          if (err) console.error("error: PUT /gallery/:id/chgimg, foundPiano.save : ", err);
+          if (err) {
+            console.error("error: PUT /gallery/:id/chgimg, foundPiano.save : ", err);
+            res.redirect("/gallery/" + req.params.id + "/chgimg");
+          }
           else res.redirect("/gallery/" + req.params.id + "/edit");
         });
       }
@@ -208,13 +261,20 @@ router.delete("/:id/delimg/:index", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     var idx = foundPiano.images.indexOf(req.params.index);
     foundPiano.images.splice(idx, 1);
+
     // remove image from the filesystem first
     fs.unlink(imageDirectory + req.params.id + "/" + req.params.index, function (err) {
-      if (err) error.Route("DELETE", "fs.unlink", req, err);
+      if (err) {
+        error.Route("DELETE", "fs.unlink", req, err);
+        res.redirect("/gallery/" + req.params.id + "/edit");
+      }
     });
 
     foundPiano.save(function (err) {
-      if (err) error.Route("DELETE", "updatedPiano.save", req, err);
+      if (err) {
+        error.Route("DELETE", "updatedPiano.save", req, err);
+        res.redirect("/gallery/" + req.params.id + "/edit");
+      }
       else res.redirect("/gallery/" + req.params.id + "/edit")
     });
   });
@@ -226,13 +286,19 @@ router.delete("/:id", middleware.isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     foundPiano.images.forEach(function (img) {
       fs.unlink(imageDirectory + img, function (err) {
-        if (err) error.Route("DELETE", "Piano.findById", req, err);
+        if (err) {
+          error.Route("DELETE", "Piano.findById", req, err);
+          res.redirect("/gallery/");
+        }
       });
     });
   });
   // Then remove the entry from the DB
   Piano.findByIdAndRemove(req.params.id, function (err) {
-    if (err) error.Route("DELETE", "Piano.findByIdAndRemove", req, err);
+    if (err) {
+      error.Route("DELETE", "Piano.findByIdAndRemove", req, err);
+      res.redirect("/gallery");
+    }
     else res.redirect("/gallery");
   })
 });

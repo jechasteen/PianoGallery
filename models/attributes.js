@@ -2,9 +2,6 @@
 
 var attributeSchema = new mongoose.Schema({
   name: String,     // Homepage title, used throught (e.g. "BHA Piano")
-  headImg: String,  // The homepage main banner image
-  footImg: String,  // The homepage main footer image
-  blogImg: String,  // Image used for featured blog post
   body: String,     // Text for homepage "Welcome to BHA Piano, the leader...."
   feature: {        // A banner that can promote anything...
     title: String,  // The feature item title

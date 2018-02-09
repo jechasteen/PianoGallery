@@ -1,22 +1,85 @@
 ﻿<% include ../partials/admin_header %>
-<h1><%= page.title %></h1>
+<body class="">
 
-<h3>Links</h3>
-<a href="/gallery/new">New Piano</a>
-<a href="/blog/new">New Blog Post</a>
-<a href="/admin/set">Change Site Attributes</a> -
-<a href="/gallery">Gallery</a>
-<a href="/blog">Blog</a>
-
-<h3>Site Attributes</h3>
-<%= attrib.name %>
-<%= attrib.headImg %>
-<%= attrib.footImg %>
-<%= attrib.blogImg %>
-<%= attrib.body %>
-<h5>Current Feature Attributes</h5>
-<%= attrib.feature.title %>
-<%= attrib.feature.body %>
-<%= attrib.feature.image %>
-<%= attrib.feature.url %>
+  <div class="container pb-5 m-0">
+    <div class="row">
+      <div class="col-sm-8">
+        <div class="py-5 text-center">
+          <img class="d-block mx-auto mb-4" src="/ms-icon-150x150.png" alt="" width="100" height="100">
+          <h1><%= page.title %></h1>
+          <hr />
+        </div>
+        <form action="/admin/set?_method=PUT" method="POST">
+          <h2 class="ml-3">Site Attributes</h2>
+          <div class="container mr-3">
+            <button class="btn btn-success mb-3 ml-1 float-right">Submit</button>
+            <button class="btn btn-danger mb-3 float-right">Clear Form</button>
+          </div>
+          <div class="container">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Site-Wide Name</span>
+              </div>
+              <input type="text" class="form-control" name="attrib[name]" value="<%= attrib.name %>" />
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Landing Page Text</span>
+              </div>
+              <textarea class="form-control" rows="5" name="attrib[body]" id="body"><%= attrib.body %></textarea>
+            </div>
+          </div>
+          <hr />
+          <div class="container">
+            <h5>Current Feature</h5>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Title</span>
+              </div>
+              <input type="text" class="form-control" name="attrib[feature[title]]" value="<%= attrib.feature.title %>" placeholder="Title" />
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">URL</span>
+              </div>
+              <input type="text" class="form-control" name="attrib[feature[url]]" value="<%= attrib.feature.url %>" placeholder="URL" />
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Body</span>
+              </div>
+              <textarea name="attrib[body]" rows="3" class="form-control"><%= attrib.feature.body %></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-4 order-first text-center">
+        <div class="container mt-5">
+          <div class="card">
+            <div class="card-header">
+              <h3>Quick Links</h3>
+            </div>
+            <div class="card-body">
+              <div class="btn-toolbar py-1" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group-vertical  mx-auto" role="group" aria-label="First group">
+                  <a href="/gallery/new" class="btn btn-secondary w-100">New Piano</a>
+                  <a href="/blog/new" class="btn btn-secondary w-100">New Blog Post</a>
+                  <a href="/gallery" class="btn btn-dark w-100">Gallery</a>
+                  <a href="/blog" class="btn btn-dark w-100">Blog</a>
+                  <a href="/admin/logout" class="btn btn-danger w-100">Log Out</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              Statistics
+            </div>
+            <div class="card-body">
+              Stats go here...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 <% include ../partials/admin_footer %>

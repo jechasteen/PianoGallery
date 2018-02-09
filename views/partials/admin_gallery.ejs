@@ -1,4 +1,7 @@
 ﻿<% if (page.admin) { %>
-  <a href="/gallery/new">New Piano</a>
-  <a href="/admin/logout">Log Out</a>
+  <div class="sticky-top admin-nav p-3">
+      <a href="/gallery/new" class="btn btn-warning">New Piano</a>
+      <a href="/admin/logout" class="btn btn-danger float-right ml-1">Log Out</a>
+      <a href="/admin" class="btn btn-success float-right ml-1">Admin Panel</a>
+  </div>
 <% } else {}%>

@@ -88,7 +88,6 @@
     </Compile>
     <Content Include="design.md" />
     <Content Include="package.json" />
-    <Content Include="public\images\site\bha-favicon.ico" />
     <Content Include="public\javascripts\bootstrap\alert.js.map" />
     <Content Include="public\javascripts\bootstrap\button.js.map" />
     <Content Include="public\javascripts\bootstrap\carousel.js.map" />
@@ -102,6 +101,10 @@
     <Content Include="public\javascripts\bootstrap\tooltip.js.map" />
     <Content Include="public\javascripts\bootstrap\util.js.map" />
     <Content Include="public\stylesheets\admin.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\stylesheets\bootstrap.min.css" />
+    <Content Include="public\stylesheets\login.css">
       <SubType>Code</SubType>
     </Content>
     <Content Include="public\stylesheets\main.css" />
@@ -166,6 +169,7 @@
     <Content Include="views\partials\admin_piano.ejs">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\partials\admin_post.ejs" />
     <Content Include="views\partials\footer.ejs">
       <SubType>Code</SubType>
     </Content>
