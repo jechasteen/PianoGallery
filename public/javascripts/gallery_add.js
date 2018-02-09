@@ -18,11 +18,14 @@ window.onload = function () {
       reader.onload = (function (theFile) {
         return function (e) {
           // Render thumbnail.
-          var span = document.createElement('figure');
+          var span = document.createElement('div');
 
-          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+          span.classList.add("col-sm-4");
+
+          span.innerHTML = ['<figure class="text-center"><img class="img-thumbnail" src="', e.target.result,
             '" title="', escape(theFile.name), '"/><figcaption>',
-            theFile.name, '</figcaption>'].join('');
+            theFile.name, '</figcaption></figure>'].join('');
+
           document.getElementById('list').insertBefore(span, null);
 
           // --->>>  imageTable(evt.target.files);

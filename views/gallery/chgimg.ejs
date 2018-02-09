@@ -1,13 +1,29 @@
 ﻿<% include ../partials/header %>
 <link href="/stylesheets/admin.css" rel="stylesheet" />
 
-<h1><%= page.title %></h1>
-
-<form action="/gallery/<%= piano._id %>/chgimg?_method=PUT" method="POST" enctype="multipart/form-data">
-  <input type="file" name="images" id="images" multiple="multiple" />
-  <ul id="list"></ul>
-  <button>Add Images</button>
-</form>
+  <div class="container">
+    <form action="/gallery/<%= piano._id %>/chgimg?_method=PUT" method="POST" enctype="multipart/form-data">
+      <div class="container mt-5">
+        <div class="card">
+          <div class="card-header text-center">
+            <h1 class="card-title">Edit Piano</h1>
+            <h3 class="card-subtitle pb-3"> "<%= piano.title %>" </h3>
+          </div>
+          <div class="card-body">
+            <h3 class="card-subtitle text-center mb-5">Add Images</h3>
+            <input type="file" name="images" id="images" multiple="multiple" />
+            <div class="row" id="list"></div>
+          </div>
+          <div class="card-footer">
+            <script>
+              document.write('<a class="btn btn-secondary" href="' + document.referrer + '">Cancel</a>');
+            </script>
+            <button class="btn btn-success float-right">Add Images</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 
 <script src="/javascripts/gallery_add.js"></script>
 

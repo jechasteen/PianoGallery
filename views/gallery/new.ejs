@@ -3,26 +3,109 @@
 <link href="/stylesheets/admin.css" rel="stylesheet" />
 
 <div class="container">
-  <h1>New Piano</h1>
+  <form action="/gallery" method="POST">
+    <div class="container mt-5">
+      <div class="card">
+        <h1 class="card-title text-center mt-3">New Piano</h1>
+        <h3 class="card-subtitle text-center">Step 1: Piano Data</h3>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Title</span>
+                </div>
+                <input class="form-control" type="text" name="title" placeholder="Title" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Make</span>
+                </div>
+                <input class="form-control" type="text" name="make" placeholder="Make" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Model</span>
+                </div>
+                <input class="form-control" type="text" name="model" placeholder="Model" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Year</span>
+                </div>
+                <input class="form-control" type="number" name="year" step="1" min="1900" max="2018" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Category</span>
+                </div>
+                <select class="form-control" name="category">
+                  <option value="Grand">Grand</option>
+                  <option value="Upright">Upright</option>
+                  <option value="Digital">Digital</option>
+                  <option value="Player">Player</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">YouTube URL</span>
+                </div>
+                <input class="form-control" type="text" name="yt_url" placeholder="YouTube URL" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">List Price</span>
+                </div>
+                <input class="form-control" type="number" name="l_price" placeholder="List Price" min="0.01" step="0.01" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Asking Price</span>
+                </div>
+                <input class="form-control" type="number" name="a_price" placeholder="Asking Price" min="0.01" step="0.01" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Short Desc.</span>
+                </div>
+                <input class="form-control" type="text" name="desc" placeholder="Short Description" />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Description</span>
+                </div>
+                <textarea class="form-control" name="body" placeholder="Long Form Description" rows="5"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <script>
+            document.write('<a class="btn btn-secondary" href="' + document.referrer + '">Cancel</a>');
+          </script>
+          <button class="btn btn-success float-right">Step 2: Upload Images</button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
-
-<form action="/gallery" method="POST">
-  <input type="text" name="title" placeholder="Title" />
-  <input type="text" name="make" placeholder="Make" />
-  <input type="text" name="model" placeholder="Model" />
-  <input type="number" name="year" />
-  <select name="category">
-    <option value="Grand">Grand</option>
-    <option value="Upright">Upright</option>
-    <option value="Digital">Digital</option>
-    <option value="Player">Player</option>
-  </select>
-  <input type="text" name="desc" placeholder="Short Description" />
-  <textarea name="body" placeholder="Long Form Description"></textarea>
-  <input type="number" name="l_price" placeholder="List Price" min="0.01" step="0.01" />
-  <input type="number" name="a_price" placeholder="Asking Price" min="0.01" step="0.01" />
-  <input type="text" name="yt_url" placeholder="YouTube URL" />
-  <button>Next</button>
-</form>
 
 <% include ../partials/footer %>

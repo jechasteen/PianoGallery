@@ -1,58 +1,155 @@
 ﻿<% include ../partials/header %>
+<a href="/gallery">Gallery</a> -
+<a href="/admin">Admin Panel</a>
 
-<a href="/gallery/<%= piano._id %>">Back</a>
+<div class="container">
+  <form action="/gallery/<%= piano._id %>?_method=PUT" method="POST">
+    <div class="container mt-5">
+      <div class="card">
+        <h1 class="card-title text-center mt-3">Edit Piano</h1>
+        <h3 class="card-subtitle pb-3 text-center">"<%= piano.title %>"</h3>
+        <div class="card-body">
+          <h3 class="text-center">Piano Metadata</h3>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Title</span>
+                </div>
+                <input type="text" class="form-control" id="title" name="piano[title]" value="<%= piano.title %>" placeholder="Title" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Make</span>
+                </div>
+                <input type="text" class="form-control" id="make" name="piano[make]" value="<%= piano.make %>" placeholder="Make" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Model</span>
+                </div>
+                <input type="text" id="model" class="form-control" name="piano[model]" value="<%= piano.model %>" placeholder="Model" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Year</span>
+                </div>
+                <input class="form-control" type="number" name="piano[year]" value="<%= piano.year.getFullYear() %>" step="1" min="1900" max="2018" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Category</span>
+                </div>
+                <select class="form-control" name="piano[category]">
+                  <option value="Grand" <%= piano.category === 'Grand' ? 'selected' : '' %>>Grand</option>
+                  <option value="Upright" <%= piano.category === 'Upright' ? 'selected' : '' %>>Upright</option>
+                  <option value="Digital" <%= piano.category === 'Digital' ? 'selected' : '' %>>Digital</option>
+                  <option value="Player" <%= piano.category === 'Player' ? 'selected' : '' %>>Player</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">YouTube URL</span>
+                </div>
+                <input type="text" class="form-control" name="piano[yt_url]" value="<%= piano.yt_url %>" placeholder="YouTube URL" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">List Price</span>
+                </div>
+                <input type="number" class="form-control" id="l_price" name="piano[l_price]" value="<%= piano.l_price %>" min="0.01" step="0.01" placeholder="List Price" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Asking Price</span>
+                </div>
+                <input type="number" name="piano[a_price]" value="<%= piano.a_price %>" min="0.01" step="0.01" placeholder="Asking Price" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Short Desc.</span>
+                </div>
+                <input type="text" id="desc" class="form-control" name="piano[desc]" value="<%= piano.desc %>" placeholder="Short Description" />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="input-group mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Description</span>
+                </div>
+                <textarea class="form-control" name="piano[body]" placeholder="Long Form Description" rows="5"><%= piano.body %></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <script>
+            document.write('<a class="btn btn-secondary" href="' + document.referrer + '">Cancel</a>');
+          </script>
+          <button class="btn btn-success float-right">Update</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="container">
+    <div class="card mb-5">
+      <div class="card-title text-center mt-3">
+        <h3>Images</h3>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <% piano.images.forEach( function(img) { %>
+            <div class="col-sm-4">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <h6 class="text-center"><%= img %></h6>
+                </div>
+                <div class="card-body">
+                  <div class="card-img-top">
+                    <img class="mx-auto d-block" width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="btn-group ml-4">
+                    <form class="" action="/gallery/<%= piano._id %>/delimg/<%= img %>?_method=DELETE" method="POST">
+                      <button class="btn btn-danger btn-sm mr-1">Remove Image</button>
+                    </form>
+                    <% if(img === piano.main_image) { %>
+                    <form>
+                      <button class="btn btn-success btn-sm" disabled>Make Main Image</button>
+                    </form>
+                    <% } else { %>
+                    <form class="" action="/gallery/<%= piano._id %>/mainimg" method="POST">
+                      <button class="btn btn-success btn-sm" name="main_image" value="<%= img %>">Make Main Image</button>
+                    </form>
+                    <% } %>
+                  </div>               
+                </div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
 
-<form action="/gallery/<%= piano._id %>?_method=PUT" method="POST">
-  <div class="row">
-    <div class="form-group col-sm-6">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" id="title" name="piano[title]" value="<%= piano.title %>" placeholder="Title" />
-    </div>
-    <div class="form-group col-sm-6">
-      <label for="make">Make</label>
-      <input type="text" class="form-control" id="make" name="piano[make]" value="<%= piano.make %>" placeholder="Make" />
-    </div>
-    <div class="form-group col-sm-6">
-      <label for="model">Model</label>
-      <input type="text" id="model" class="form-control" name="piano[model]" value="<%= piano.model %>" placeholder="Model" />
-    </div>
-    <div class="form-group col-sm-6">
-      <label for="year">Year</label>
-      <input type="number" id="year" class="form-control" name="piano[year]" value="<%= piano.year %>" placeholder="Year" />
-    </div>
-    <div class="form-group col-sm-6">
-      <label for="desc">Short Description</label>
-      <input type="text" id="desc" class="form-control" name="piano[desc]" value="<%= piano.desc %>" placeholder="Short Description" />
+          <a href="/gallery/<%= piano._id %>/chgimg" class="btn btn-warning float-right">Add More Images</a>
+        </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <label for="desc">Short Description</label>
-      <textarea name="body" id="desc" class="form-control"><%= piano.body %>Long-form Description</textarea>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <label for="l_price">List Price</label>
-      <input type="number" class="form-control" id="l_price" name="piano[l_price]" value="<%= piano.l_price %>" min="0.01" step="0.01" placeholder="List Price" />
-    </div>
-    
-  </div>
-  <input type="number" name="piano[a_price]" value="<%= piano.a_price %>" min="0.01" step="0.01" placeholder="Asking Price" />
-  <input type="text" name="piano[yt_url]" value="<%= piano.yt_url %>" placeholder="YouTube URL" />
-  <button>Submit</button>
-</form>
-
-<% piano.images.forEach( function(img) { %>
-<img width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
-<form action="/gallery/<%= piano._id %>/delimg/<%= img %>?_method=DELETE" method="POST">
-  <button>Remove Image</button>
-</form>
-<form action="/gallery/<%= piano._id %>/mainimg" method="POST">
-  <button name="main_image" value="<%= img %>">Make Main Image</button>
-</form>
-  <% }); %>
-
-  <a href="/gallery/<%= piano._id %>/chgimg">Add More Images</a>
+</div>
 
 <% include ../partials/footer %>

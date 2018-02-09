@@ -1,5 +1,10 @@
 ﻿// Script for route: /gallery/:id/addimg
 
+function wrap(el, wrapper) {
+  el.parentNode.insertBefore(wrapper, el);
+  wrapper.appendChild(el);
+}
+
 window.onload = function () {
 
   //
@@ -21,14 +26,16 @@ window.onload = function () {
       reader.onload = (function (theFile) {
         return function (e) {
           // Render thumbnail.
-          var span = document.createElement('figure');
+          var div = document.createElement('div');
 
-          span.innerHTML = ['<img class="thumb" src="', e.target.result,
+          div.classList.add("col-sm-4");
+
+          div.innerHTML = ['<figure class="text-center"><img class="img-thumbnail" src="', e.target.result,
             '" title="', escape(theFile.name), '"/> <figcaption>',
             '<input type="radio" id="main_image" name="main_image" value="', theFile.name,
-            '">', theFile.name, '</figcaption>'].join('');
+            '"> ', theFile.name, '</figcaption></figure>'].join('');
 
-          document.getElementById('list').insertBefore(span, null);
+          document.getElementById('list').insertBefore(div, null);
 
           // --->>>  imageTable(evt.target.files);
         };

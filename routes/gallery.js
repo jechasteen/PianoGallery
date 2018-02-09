@@ -1,4 +1,5 @@
 ﻿// TODO: Find places where res.redirect(...) can be replaced with "back"
+// TODO: Make sure image does not already exist, if using chgimg route
 
 'use strict';
 var express = require("express");
@@ -45,6 +46,7 @@ router.get("/new", isLoggedIn, function (req, res) {
 //
 // -> Post the form data
 router.post("/", isLoggedIn, function (req, res) {
+  /*
   Piano.find({ title: req.body.title }, function (err, foundPiano) {
     if (err) {  // piano not found
       Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
@@ -57,10 +59,30 @@ router.post("/", isLoggedIn, function (req, res) {
       });
     } else {
       if (foundPiano === null) {
-        res.redirect("/gallery/new")
+        console.log("**** NULL PIANO")
+        res.redirect("/gallery/new");
       } else {
         utils.updateThenAddImg(req, res, foundPiano._id);
       }
+    }
+  }); */
+  Piano.find({ title: req.body.title }, function (err, foundPiano) {
+    if (err) {
+      error.Route("post", "Piano.find", req, err);
+      res.redirect("/gallery/new");
+    } else if (foundPiano.title === req.body.title) {
+      console.log("Piano with that title already exists");
+      console.log("****** ELSE IF")
+      utils.updateThenAddImg(req, res, foundPiano._id);
+    } else {
+      Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
+        if (err) {
+          error.Route("post", "Piano.find :: Piano.create", req, err);
+          res.redirect("/gallery/new");
+        } else {
+          res.redirect("/gallery/" + createdPiano._id + "/addimg");
+        }
+      });
     }
   });
 });
