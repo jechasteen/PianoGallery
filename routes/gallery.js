@@ -9,6 +9,8 @@ var fs = require("fs");
 var utils = require("../utils.js");
 var error = require("../error.js");
 var middleware = require("../middleware");
+var isLoggedIn = middleware.isLoggedIn;
+
 
 var imageDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\";
 var uploadDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\uploads\\";
@@ -34,7 +36,7 @@ router.get("/", function (req, res) {
 //
 // NEW
 //
-router.get("/new", middleware.isLoggedIn, function (req, res) {
+router.get("/new", isLoggedIn, function (req, res) {
   page.title = "Create New Piano";
   res.render("gallery/new", { page: page });
 });
@@ -42,7 +44,7 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 // CREATE
 //
 // -> Post the form data
-router.post("/", middleware.isLoggedIn, function (req, res) {
+router.post("/", isLoggedIn, function (req, res) {
   Piano.find({ title: req.body.title }, function (err, foundPiano) {
     if (err) {  // piano not found
       Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {
@@ -63,7 +65,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
   });
 });
 // -> SHOW Add Images Form
-router.get("/:id/addimg", middleware.isLoggedIn, function (req, res) {
+router.get("/:id/addimg", isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) {
       error.Route("get", "Piano.findById", req, err);
@@ -77,7 +79,7 @@ router.get("/:id/addimg", middleware.isLoggedIn, function (req, res) {
 });
 // -> CREATE/Update Piano.images[] and .main_image
 // *** Really an UPDATE route ADDS initial images.
-router.put("/:id/addimg", middleware.isLoggedIn, function (req, res) {
+router.put("/:id/addimg", isLoggedIn, function (req, res) {
   // make new directory for new piano named Piano._id
   var imgDir = imageDirectory + req.params.id;
   if (!fs.existsSync(imgDir)) {   // BLOCKING
@@ -135,7 +137,7 @@ router.put("/:id/addimg", middleware.isLoggedIn, function (req, res) {
   });
 });
 // -> CREATE Select the main (gallery) image
-router.post("/:id/mainimg", middleware.isLoggedIn, function (req, res) {
+router.post("/:id/mainimg", isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) {
       error.Route("PUT", "Piano.findById", req, err);
@@ -174,7 +176,7 @@ router.get("/:id", function (req, res) {
 // EDIT
 //
 // Show edit form
-router.get("/:id/edit", middleware.isLoggedIn, function (req, res) {
+router.get("/:id/edit", isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) {
       error.Route("GET", "Piano.findById", req, err);
@@ -186,7 +188,7 @@ router.get("/:id/edit", middleware.isLoggedIn, function (req, res) {
   });
 });
 // UPDATE ->> Update route for fields
-router.put("/:id", middleware.isLoggedIn, function (req, res) {
+router.put("/:id", isLoggedIn, function (req, res) {
   Piano.findByIdAndUpdate(req.params.id, req.body.piano, function (err, updatedPiano) {
     if (err) {
       error.Route("PUT", "Piano.findByIdAndUpdate", req, err);
@@ -200,7 +202,7 @@ router.put("/:id", middleware.isLoggedIn, function (req, res) {
 // UPDATE ->> Update route for images, i.e. add new images...
 //
 // show add images form
-router.get("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
+router.get("/:id/chgimg", isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     if (err) {
       error.Route("GET", "Piano.findById", req, err);
@@ -214,7 +216,7 @@ router.get("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
   
 });
 // Push the added filenames to the piano
-router.put("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
+router.put("/:id/chgimg", isLoggedIn, function (req, res) {
   var imgDir = imageDirectory + req.params.id;
   var form = formidable.IncomingForm({ uploadDir: imgDir, multiples: true });
 
@@ -257,7 +259,7 @@ router.put("/:id/chgimg", middleware.isLoggedIn, function (req, res) {
 });
 
 // DELETE ->> Delete route for images
-router.delete("/:id/delimg/:index", middleware.isLoggedIn, function (req, res) {
+router.delete("/:id/delimg/:index", isLoggedIn, function (req, res) {
   Piano.findById(req.params.id, function (err, foundPiano) {
     var idx = foundPiano.images.indexOf(req.params.index);
     foundPiano.images.splice(idx, 1);
@@ -281,7 +283,7 @@ router.delete("/:id/delimg/:index", middleware.isLoggedIn, function (req, res) {
 });
 
 // DESTROY
-router.delete("/:id", middleware.isLoggedIn, function (req, res) {
+router.delete("/:id", isLoggedIn, function (req, res) {
   // First find and remove all associated images
   Piano.findById(req.params.id, function (err, foundPiano) {
     foundPiano.images.forEach(function (img) {
