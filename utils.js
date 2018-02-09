@@ -3,6 +3,23 @@ var moment = require("moment");
 var error = require("./error.js");
 
 var utils = {
+
+  createCatObj: function (arr) {
+    var catObj = {
+      Grand: false,
+      Upright: false,
+      Digital: false,
+      Player: false
+    }
+
+    arr.forEach(function (item) {
+      catObj[item] = true;
+    });
+
+    console.log(catObj);
+    return catObj;
+  },
+
   spaceToUnderscore: function (string) {
     return string.replace(/ /g, "_");
   },

@@ -5,17 +5,36 @@
 <% } %>
 
 <a href="/gallery">Back to Gallery</a>
-
-<%= piano.title %>
-$<%= piano.l_price %>
-$<%= piano.a_price %>
-<%= piano.make %>
-<%= piano.model %>
-<%= piano.year %>
-<%= piano.category %>
-<%= piano.body %><br>
-<% piano.images.forEach( function(img) { %>
-<img width="200" height="200" src="/images/<%= piano._id %>/<%= img %>" />
-<% }); %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <img src="/images/<%= piano._id %>/<%= piano.main_image %>" class="img-thumbnail" />
+        </li>
+        <li class="list-group-item"><h1><%= piano.category %></h1></li>
+        <li class="list-group-item">Make:  <%= piano.make %></li>
+        <li class="list-group-item">Model: <%= piano.model %></li>
+        <li class="list-group-item">Year:  <%= piano.year %></li>
+        <li class="list-group-item text-center"><h3>&#36;<%= piano.l_price %></h3></li>
+        <%- piano.a_price ? '<li class="list-group-item text-center">Sale: &#36;' + piano.a_price : '' %></li>
+      </ul>
+    </div>
+    <div class="col-sm-9">
+      <h1><%= piano.title %></h1>
+      <hr />
+      <p><%= piano.body %></p>
+      <div class="row">
+        <% piano.images.forEach( function(img) { %>
+        <% if (img === piano.main_image) { %>
+        <% } else { %>
+        <div class="col-sm-4">
+          <img class="img-thumbnail" src="/images/<%= piano._id %>/<%= img %>" />
+        </div>
+        <% } }); %>
+      </div>
+    </div>
+  </div>
+</div>
 
 <% include ../partials/footer %>

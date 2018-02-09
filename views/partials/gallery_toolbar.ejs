@@ -1,0 +1,34 @@
+﻿<div class="col-sm-2">
+  <div class="container m-3 fixed-left">   <!-- Filter Category -->
+    <form action="/gallery?category=" method="GET">
+      <div class="form-check">
+        <input class="form-check-input category" type="checkbox" value="Grand" id="Grand" <%= cat.Grand ? 'checked' : '' %>>
+        <label class="form-check-label" for="Grand">
+          Grand
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input category" type="checkbox" value="Upright" id="Upright" <%= cat.Upright ? 'checked' : '' %>>
+        <label class="form-check-label" for="Upright">
+          Upright
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input category" type="checkbox" value="Digital" id="Digital" <%= cat.Digital ? 'checked' : '' %>>
+        <label class="form-check-label" for="Digital">
+          Digital
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input category" type="checkbox" value="Player" id="Player" <%= cat.Player ? 'checked' : '' %>>
+        <label class="form-check-label" for="Player">
+          Player
+        </label>
+      </div>
+      <input type="hidden" name="category" id="selections" value="" />
+      <button class="btn btn-warning btn-sm mt-1" id="cat-clear">Clear</button>
+      <button class="btn btn-secondary btn-sm mt-1">Apply</button>
+    </form>
+  </div>
+  
+</div>

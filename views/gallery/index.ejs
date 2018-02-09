@@ -1,20 +1,42 @@
 ﻿<% include ../partials/header %>
 <% if(page.admin) { %>
   <% include ../partials/admin_gallery %>
-  <link href="/stylesheets/admin.css" rel="stylesheet" />
+<link href="/stylesheets/admin.css" rel="stylesheet" />
 <% } %>
-<h1>Gallery Index</h1>
+<div class="row pt-5">
+  <% include ../partials/gallery_toolbar %>
 
-<% pianos.forEach( function(piano) { %>
-<p>
-  <a href="/gallery/<%= piano._id %>">
-    <%= piano.title %>
-    <img src="/images/<%= piano._id %>/<%= piano.main_image %>" width="100" height="100">
-  </a>
-  <%= piano.desc %>
-  <%= piano.l_price %>
-  <%= piano.a_price %>
-</p>
-<% }); %>
+  <div class="col-sm-10">
+    <div class="container">
+      <div class="row">
+        <div class="card-deck">
+          <% pianos.forEach( function(piano) { %>
+          <div class="col-sm-4 mb-5">
+            <div class="card">
+              <a href="/gallery/<%= piano._id %>">
+                <div class="card-header text-center"><h3><%= piano.title %></h3></div>
+                <div class="card-img-top">
+                  <img class="img-thumbnail p-0" src="/images/<%= piano._id %>/<%= piano.main_image %>">
+                </div>
+              </a>
+              <div class="card-body">
+                <%= piano.desc %>
+              </div>
+              <ul class="list-group list-group-flush">
+                <% if (piano.a_price === null || piano.a_price === "") { %>
+                <li class="list-group-item"><%= piano.l_price %></li>
+                <% } else { %>
+                <li class="list-group-item" style="text-decoration: line-through;"><%= piano.l_price %></li>
+                <li class="list-group-item"><%= piano.a_price %></li>
+                <% } %>
+              </ul>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <% include ../partials/footer %>

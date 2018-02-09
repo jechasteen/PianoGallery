@@ -12,7 +12,6 @@ var error = require("../error.js");
 var middleware = require("../middleware");
 var isLoggedIn = middleware.isLoggedIn;
 
-
 var imageDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\";
 var uploadDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\uploads\\";
 
@@ -22,16 +21,36 @@ var page = {};
 // INDEX
 //
 router.get("/", function (req, res) {
-  var cat;
-  Piano.find({}, function (err, allPianos) {
-    page.title = "All Pianos";
-    if (req.isAuthenticated()) {
-      page.admin = true;
-    } else {
-      page.admin = false;
-    }
-    res.render("gallery/index", { page: page, pianos: allPianos });
-  }); 
+  if (req.isAuthenticated()) {
+    page.admin = true;
+  } else {
+    page.admin = false;
+  }
+  var cat = req.query.category;
+
+  if (cat === undefined || cat === "All") {
+    Piano.find({}, function (err, allPianos) {
+      page.title = "All";
+      res.render("gallery/index", { page: page, pianos: allPianos, cat: {}});
+    });
+  } else {
+    cat = cat.split(',');
+    Piano.find({ category: cat }, function (err, filteredPianos) {
+      if (err) {
+        error.Route("GET", "Piano.find category", req, err);
+        res.redirect("/gallery");
+      } else {
+        page.title = cat;
+        res.render("gallery/index",
+          {
+            page: page,
+            pianos: filteredPianos,
+            cat: utils.createCatObj(cat)
+          });
+      }
+    });
+  }
+   
 });
 
 //
@@ -309,12 +328,15 @@ router.delete("/:id", isLoggedIn, function (req, res) {
   // First find and remove all associated images
   Piano.findById(req.params.id, function (err, foundPiano) {
     foundPiano.images.forEach(function (img) {
-      fs.unlink(imageDirectory + img, function (err) {
-        if (err) {
-          error.Route("DELETE", "Piano.findById", req, err);
-          res.redirect("/gallery/");
-        }
-      });
+      var path = [imageDirectory, "\\", req.params.id, "\\", img].join('');
+      if (fs.existsSync(path)) {
+        fs.unlink(path, function (err) {
+          if (err) {
+            error.Route("DELETE", "Piano.findById", req, err);
+            res.redirect("/gallery/");
+          }
+        });
+      }
     });
   });
   // Then remove the entry from the DB
