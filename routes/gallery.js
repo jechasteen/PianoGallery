@@ -26,11 +26,11 @@ router.get("/", function (req, res) {
   } else {
     page.admin = false;
   }
+  page.title = "Gallery";
   var cat = req.query.category;
 
   if (cat === undefined || cat === "All") {
     Piano.find({}, function (err, allPianos) {
-      page.title = "All";
       res.render("gallery/index", { page: page, pianos: allPianos, cat: {}});
     });
   } else {
@@ -40,7 +40,6 @@ router.get("/", function (req, res) {
         error.Route("GET", "Piano.find category", req, err);
         res.redirect("/gallery");
       } else {
-        page.title = cat;
         res.render("gallery/index",
           {
             page: page,

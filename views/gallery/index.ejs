@@ -3,7 +3,14 @@
   <% include ../partials/admin_gallery %>
 <link href="/stylesheets/admin.css" rel="stylesheet" />
 <% } %>
-<div class="row pt-5">
+
+<% include ../partials/nav %>
+<div class="container-fluid border-bottom pb-3">
+  <img class="m-auto d-block mb-0" src="/ms-icon-150x150.png" alt="BHA Piano Center" />
+  <h1 class="text-center mt-0 display-4">Piano Gallery</h1>
+</div>
+
+<div class="row m-0 pt-5 pl-1">
   <% include ../partials/gallery_toolbar %>
 
   <div class="col-sm-10">
@@ -24,10 +31,10 @@
               </div>
               <ul class="list-group list-group-flush">
                 <% if (piano.a_price === null || piano.a_price === "") { %>
-                <li class="list-group-item"><%= piano.l_price %></li>
+                <li class="list-group-item h4 text-center">$<%= piano.l_price %></li>
                 <% } else { %>
-                <li class="list-group-item" style="text-decoration: line-through;"><%= piano.l_price %></li>
-                <li class="list-group-item"><%= piano.a_price %></li>
+                <li class="list-group-item h4 text-center text-secondary">$<del><%= piano.l_price %></del></li>
+                <li class="list-group-item h3 text-center text-danger">$<%= piano.a_price %></li>
                 <% } %>
               </ul>
             </div>
@@ -37,6 +44,17 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="container text-center text-muted">
+  <p class="mt-5 mb-3 text-muted">
+    BHA Logo &copy; 2018 BHA Piano<br />
+    All images were found on
+    <a href="http://photosforclass.com/">
+      PhotosForClass.com
+    </a>. Attribution is included in each image.
+  </p>
+  <p class="mt-5 mb-3 text-muted">Web Design &copy; 2018 Jay Chasteen</p>
 </div>
 
 <% include ../partials/footer %>

@@ -1,0 +1,29 @@
+﻿<ul class="nav fixed-top bg-white border-bottom">
+  <li class="nav-item">
+    <a class="nav-link" href="/">Home</a>
+  </li>
+  <% if (page.title === "Gallery") { %>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="/gallery">All Pianos</a>
+  </li>
+  <% } else { %>
+  <li class="nav-item">
+    <a class="nav-link active" href="/gallery">All Pianos</a>
+  </li>
+  <% } %>
+  <% if (page.title === "Blog") { %>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="/blog">News</a>
+  </li>
+  <% } else { %>
+  <li class="nav-item">
+    <a class="nav-link" href="/blog">News</a>
+  </li>
+  <% } %>
+  <li class="nav-item">
+    <a class="nav-link" href="#">About</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Contact</a>
+  </li>
+</ul>

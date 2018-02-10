@@ -1,6 +1,8 @@
-﻿<div class="col-sm-2">
-  <div class="container m-3 fixed-left">   <!-- Filter Category -->
+﻿<div class="col-sm-2 bg-white border-right border-bottom">
+  <div class="container pl-2">
+    <!-- Filter Category -->
     <form action="/gallery?category=" method="GET">
+      <h6 class="text-muted">Filter by Category</h6>
       <div class="form-check">
         <input class="form-check-input category" type="checkbox" value="Grand" id="Grand" <%= cat.Grand ? 'checked' : '' %>>
         <label class="form-check-label" for="Grand">
@@ -29,6 +31,23 @@
       <button class="btn btn-warning btn-sm mt-1" id="cat-clear">Clear</button>
       <button class="btn btn-secondary btn-sm mt-1">Apply</button>
     </form>
+    <hr />
   </div>
-  
+  <div class="container m-2">
+    <h6 class="text-muted">Sort</h6>
+    <ul class="list-group-flush p-0">
+      <li class="list-group-item">
+        <a href="/gallery?sort=year_ascending">Year, oldest first</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/gallery?sort=year_descending">Year, newest first</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/gallery?sort=price_ascending">Price, lowest first</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/gallery?sort=price_descending">Price, highest first</a>
+      </li>
+    </ul>
+  </div>  
 </div>

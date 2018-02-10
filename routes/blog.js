@@ -12,9 +12,11 @@ var page = {};
 // INDEX - List All Posts
 router.get("/", function (req, res) {
   // TODO: Blog index sorting
-  page.title = "Blog - All";
+  page.title = "Blog";
   if (req.isAuthenticated()) {
     page.admin = true;
+  } else {
+    page.admin = false;
   }
   Post.find({}, function (err, foundPosts) {
     if (err) error.Route("GET", "Post.find", req, err);
