@@ -206,7 +206,7 @@ router.get("/:id", function (req, res) {
       error.Route("GET", "Piano.findById", req, err);
       res.redirect("/gallery");
     } else {
-      page.title = foundPiano.title;
+      page.title = "Piano";
       res.render("gallery/piano", { page: page, piano: foundPiano });
     }
   })

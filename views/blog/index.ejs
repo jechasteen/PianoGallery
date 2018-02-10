@@ -7,13 +7,22 @@
 
 <% include ../partials/nav %>
 
-<h1>Blog Index Route</h1>
+<h1 class="display-3 ml-5">Recent News</h1>
+<div class="container p-0 mt-5">
+  <% posts.forEach( function(post){ %>
+  <div class="card border-0 m-0 pl-3">
+    <div class="card-heading mb-3">
+      <h1 class="card-title">
+        <a href="/blog/<%= post._id %>"><%= post.title %></a>
+        <small class="text-muted"><%= post.date.getMonth() + "/" + post.date.getDay() + "/" + post.date.getFullYear() %></small>
+      </h1>
+    </div>
+    <div class="card-bodytext-justify">
+      <p><%= post.body %></p>
+    </div>
+  </div>
+  <% }); %>
+</div>
 
-<% posts.forEach( function(post){ %>
-<h1><a href="/blog/<%= post._id %>"><%= post.title %></a></h1>
-<p><%= post.body %></p>
-<p><%= post.date %></p>
-
-<% }); %>
 
 <% include ../partials/footer %>

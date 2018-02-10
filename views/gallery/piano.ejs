@@ -6,23 +6,31 @@
 
 <% include ../partials/nav %>
 
-<div class="container">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mx-5">
+    <li class="breadcrumb-item"><a href="/gallery">Pianos</a></li>
+    <li class="breadcrumb-item"><a href="/gallery?category=<%= piano.category %>"><%= piano.category %></a></li>
+    <li class="breadcrumb-item active" aria-current="page">"<%= piano.title %>"</li>
+  </ol>
+</nav>
+
+<div class="container mt-5">
   <div class="row">
     <div class="col-sm-3">
       <ul class="list-group">
-        <li class="list-group-item">
-          <img src="/images/<%= piano._id %>/<%= piano.main_image %>" class="img-thumbnail" />
+        <li class="list-group-item p-0">
+          <img src="/images/<%= piano._id %>/<%= piano.main_image %>" class="img-thumbnail border-0 rounded-0 p-0" />
         </li>
-        <li class="list-group-item"><h1><%= piano.category %></h1></li>
+        <li class="list-group-item text-center"><h5><%= piano.category.toUpperCase() %></h5></li>
         <li class="list-group-item">Make:  <%= piano.make %></li>
         <li class="list-group-item">Model: <%= piano.model %></li>
         <li class="list-group-item">Year:  <%= piano.year %></li>
-        <li class="list-group-item text-center"><h3>&#36;<%= piano.l_price %></h3></li>
-        <%- piano.a_price ? '<li class="list-group-item text-center">Sale: &#36;' + piano.a_price : '' %></li>
+        <li class="list-group-item text-center"><h4>&#36;<%= piano.l_price %></h4></li>
+        <%- piano.a_price ? '<li class="list-group-item text-center"><h3>Sale: &#36;' + piano.a_price + '</h3>' : '' %></li>
       </ul>
     </div>
     <div class="col-sm-9">
-      <h1><%= piano.title %></h1>
+      <h1 class="display-4"><%= piano.title %></h1>
       <hr />
       <p><%= piano.body %></p>
       <div class="row">

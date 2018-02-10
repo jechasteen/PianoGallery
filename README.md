@@ -1,3 +1,5 @@
-﻿# BHA_piano
+﻿# BHA Piano Center
+*Piano Gallery and Blog*
+
 
 
