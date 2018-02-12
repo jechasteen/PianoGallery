@@ -1,5 +1,6 @@
 ﻿// TODO: Find places where res.redirect(...) can be replaced with "back"
 // TODO: Make sure image does not already exist, if using chgimg route
+// TODO: 
 
 'use strict';
 var express = require("express");
@@ -90,7 +91,7 @@ router.post("/", isLoggedIn, function (req, res) {
       res.redirect("/gallery/new");
     } else if (foundPiano.title === req.body.title) {
       console.log("Piano with that title already exists");
-      console.log("****** ELSE IF")
+      console.log("****** ELSE IF");
       utils.updateThenAddImg(req, res, foundPiano._id);
     } else {
       Piano.create(utils.pianoFromRequest(req), function (err, createdPiano) {

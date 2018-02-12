@@ -3,9 +3,11 @@ var moment = require("moment");
 
 var pianoSchema = new mongoose.Schema({
   title: String,
+  subtitle: String,
+  size: Number,
   make: String,
   model: String,
-  year: Date,     // 4 digit number
+  year: Number,     // 4 digit number
   category: String,
   desc: String, // short description
   body: String, // full description

@@ -69,6 +69,9 @@
     <Compile Include="sandbox.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="scrape.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="seed.js">
       <SubType>Code</SubType>
     </Compile>

@@ -12,8 +12,8 @@ var utils = {
       Player: false
     }
 
-    arr.forEach(function (item) {
-      catObj[item] = true;
+    arr.forEach(function (cat) {
+      catObj[cat] = true;
     });
 
     console.log(catObj);
@@ -25,13 +25,12 @@ var utils = {
   },
 
   pianoFromRequest: function (req) {
-    // Parameter rb = request.body
     // Returns an object of type: Mongoose Schema
     var rb = req.body;
     var newPiano = {
-      title: rb.title, make: rb.make,
-      model: rb.model, year: rb.year,
-      desc: rb.desc, body: rb.body,
+      title: rb.title, subtitle: rb.subtitle, size: rb.size,
+      make: rb.make, model: rb.model, year: rb.year,
+      desc: rb.desc, body: rb.body, category: rb.category,
       l_price: rb.l_price, a_price: rb.a_price,
       yt_url: rb.yt_url
     };
