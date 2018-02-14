@@ -3,82 +3,133 @@ var Piano = require("./models/piano");
 var mongoose = require("mongoose");
 var fs = require("fs");
 
-const imgDir = "C:\\Users\\jonat\\Documents\\Pianos\\";
-const pubDir = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\";
-
 mongoose.connect(process.env.DBURL);
 
-var brands = [
-  "Yamaha", "Baldwin", "Wurlitzer", "Steinway & Sons",
-  "Kawai", "Bechstein", "Bluthner", "Sauter",
-  "Schimmel", "Grotrian"
-];
+//
+// Constants
+const dirs = {
+  Grand: "C:\\Users\\jonat\\Documents\\Pianos\\Grand\\",
+  Upright: "C:\\Users\\jonat\\Documents\\Pianos\\Upright\\",
+  Digital: "C:\\Users\\jonat\\Documents\\Pianos\\Digital\\",
+  public: "C:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\"
+}
 
-var categories = [
-  "Grand", "Upright",
-  "Digital", "Player"
-];
+const categories = ["Grand", "Upright", "Digital"];
 
-var discount = [
+const brands = {
+  Grand: [
+    "Baldwin", "Brodmann", "Hailun", "Hallet Davis", "Kawai",
+    "Knabe", "Kranich & Bach", "Steinway & Sons", "Weber",
+    "Wurlitzer", "Yamaha", "Young Chang"
+  ],
+  Upright: [
+    "Acrosonic", "Brodmann", "Baldwin", "Charles R. Walter",
+    "Essex", "Hamilton", "Hobart Cable", "Kimball", "Yamaha",
+    "Steinway & Sons"
+  ],
+  Digital: [
+    "Casio", "Kurzweil", "Yamaha"
+  ]
+}
+
+const sizes = {
+  Grand: [    // Length
+    60, 61, 62, 63, 64, 65, 67, 68, 69, 73, 74, 83
+  ],
+  Upright: [  // Height
+    40, 42, 43, 44, 45, 46, 48
+  ],
+  Digital: [  // Number of keys...
+    25, 49, 61, 76
+  ]
+}
+
+const discount = [
   0.95, 0.9, 0.85,
   0.75, 0.67, 0.5
 ];
 
-var images = fs.readdirSync(imgDir);
+//
+// Get Array of all image filenames in path
+var images = {
+  Grand: fs.readdirSync(dirs.Grand),
+  Upright: fs.readdirSync(dirs.Upright),
+  Digital: fs.readdirSync(dirs.Digital)
+}
 
+//
+// Helper Functions
 function randint(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+function flipCoin() {
+  var r = randint(1, 1000);
+  if (r % 2 === 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function randomDate(start, end) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
 
+function moveImages(id, array, cat) {
+  var thisDir = dirs.public + id + "\\";
 
-
-function moveImages(id, array) {
-  var thisDir = pubDir + id + "\\";
   fs.mkdir(thisDir, function (err) {
-    if (err) console.log("Error: " + err);
+    if (err) console.log("Error (moveImages::fs.mkdir): " + err);
   });
+
   array.forEach(function (img) {
     var promise = new Promise(function (resolve, reject) {
-      fs.copyFileSync(imgDir + img, thisDir + img, function (err) {
-        if (err) reject("Error");
+      fs.copyFileSync(dirs[cat] + img, thisDir + img, function (err) {
+        if (err) reject("Error: " + err);
       });
-      resolve("Moved" + img);
+      resolve("Moved " + img);
     });
     promise.then(function (message) {
       console.log(message);
     }).catch(function (message) {
       console.log(message);
     });
-    /*
-    fs.copyFile(imgDir + img, thisDir + img, function (err) {
-      if (err) console.log("Error: " + err);
-    });
-    */
   });
 }
 
+//
+// Object that contains all of the generation functions
 var gen = {
-  title: function () {
-    var make = brands[randint(0, brands.length - 1)];
-    var adj = faker.commerce.productAdjective();
+  title: function (cat) {
+    var catBrands = brands[cat];
+    var make = catBrands[randint(0, catBrands.length)];
+    var adj = faker.company.catchPhraseAdjective();
     this.make = make;
     return [adj, make].join(' ');
   },
-  make: "",
+  subtitle: function () {
+    return faker.lorem.words();
+  },
+  size: function (cat) {  // cat => category
+    if (categories.includes(cat)) {
+      var catSizes = sizes[cat];
+      return catSizes[randint(0, catSizes.length)];
+    } else {
+      return undefined;
+    }
+  },
+  make: "",   // Gen'd by gen.title
   model: function () {
-    return faker.random.alphaNumeric();
+    return faker.random.alphaNumeric(randint(3, 8));
   },
   year: function () {
     return String(randint(1970, 2018));
   },
   category: function () {
-    return categories[randint(0, 3)];
+    return categories[randint(0, categories.length)];
   },
   desc: function () {
     return faker.lorem.sentences();
@@ -88,17 +139,29 @@ var gen = {
   },
   l_price: function () {
     var price = randint(800, 35000);
-    this.a_price = price * discount[randint(0, 5)];
+    if (flipCoin()) {
+      this.a_price = Math.floor(price * discount[randint(0, 5)]);
+      console.log("Coin Flip true");
+    } else {
+      this.a_price = undefined;
+      console.log("Coin Flip false");
+    }
     return price;
   },
-  a_price: "",   // created by gen.l_price
-  images: function () {
+  a_price: undefined,   // created by gen.l_price
+  images: function (cat) {
     var num = randint(3, 6);
+    var catImgs = images[cat];
     var array = [];
     for (var i = 0; i < num; i++) {
-      array.push(images[randint(0, images.length - 1)]);
+      var img = catImgs[randint(0, catImgs.length)];
+      if (array.includes(img)) {
+        continue;
+      } else {
+        array.push(img);
+      }
     }
-    this.main_image = array[randint(0, array.length - 1)];
+    this.main_image = array[randint(0, array.length)];
     return array;
   },
   main_image: "",   // created by gen.images()
@@ -107,37 +170,54 @@ var gen = {
   }
 }
 
+//
+// Goes through all of the attributes and uses gen.* to create them
 function genPiano() {
   var newGen = gen;
-  newPiano = new Piano({
-    title: newGen.title(),
-    make: newGen.make,
+  var newPiano = new Piano({
+    // make: newGen.make,
     model: newGen.model(),
     year: newGen.year(),
     category: newGen.category(),
     desc: newGen.desc(),
     body: newGen.body(),
     l_price: newGen.l_price(),
-    a_price: newGen.a_price,
+    // a_price: Math.floor(newGen.a_price),
     yt_url: "youtube.com",
-    images: newGen.images(),
-    main_image: newGen.main_image,
+    // main_image: newGen.main_image,
     date: newGen.date() 
   });
-  moveImages(newPiano._id, newPiano.images);
+  newPiano.title = newGen.title(newPiano.category);
+  newPiano.make = newGen.make;
+  newPiano.size = newGen.size(newPiano.category);
+  newPiano.images = newGen.images(newPiano.category);
+  newPiano.main_image = newGen.main_image;
+  newPiano.a_price = newGen.a_price;
+  moveImages(newPiano._id, newPiano.images, newPiano.category);
   Piano.create(newPiano, function (err, piano) {
-    if (err) console.log("Error: " + err);
+    if (err) console.log("Error (genPiano::Piano.create): " + err);
     else console.log("Piano Created: " + piano.title);
   });
 }
 
+//
+// Exported Function
 var seed = function (num) {
   Piano.remove({}, function (err) {
-    if (err) console.log("Error: " + err);
+    if (err) console.log("Error (seed::Piano.remove): " + err);
   });
   for (var i = 0; i < num; i++) {
-    genPiano();
+    var promise = new Promise(function (resolve, reject) {
+      genPiano();
+      resolve("Piano Created...");
+    });
+    promise.then(function (message) {
+      console.log(message);
+    }).catch(function (message) {
+      console.log(message);
+    });
   }
+
 }
 
 module.exports = seed;

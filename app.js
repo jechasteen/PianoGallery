@@ -20,7 +20,7 @@ var Admin = require("./models/admin");
 mongoose.connect(process.env.DBURL, { useMongoClient: true });
 
 // Seed the DB
-//seed(50);
+// seed(50);
 
 var indexRoutes = require('./routes/index');
 var galleryRoutes = require('./routes/gallery');
@@ -41,12 +41,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 
+var expressSessionSettings = require("./express-settings");
 // PASSPORT CONFIG
-app.use(require("express-session")({
-  secret: "The piano doesn't have wrong keys",
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(require("express-session")(expressSessionSettings));
 
 app.use(passport.initialize());
 app.use(passport.session());

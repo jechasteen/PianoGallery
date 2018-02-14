@@ -1,6 +1,15 @@
 ﻿//
 //  Handle Category Filtering
 var categorySelection = [];
+var selectedCategories = [];
+
+$(document).ready(function () {
+  selectedCategories = $(".category:checked");
+
+  for (var i = 0; i < selectedCategories.length; i++) {
+    categorySelection.push(selectedCategories[i].defaultValue);
+  }
+});
 
 function arrToStr(arr) {
   var result = "";
@@ -21,9 +30,11 @@ $('.category').on("change", function (e) {
     categorySelection.splice(idx, 1);
   } else {
     categorySelection.push(value);
-    
   }
-  $('#selections').val(arrToStr(categorySelection));
+  if (categorySelection.length === 0) {
+    $('#selections').val("All");
+  }
+  $('#selections').val(categorySelection.join(","));
 });
 
 $('#cat-clear').on("click", function () {

@@ -30,7 +30,7 @@ router.get("/", function (req, res) {
   page.title = "Gallery";
   var cat = req.query.category;
 
-  if (cat === undefined || cat === "All") {
+  if (cat === "" || cat === undefined || cat === "All") {
     Piano.find({}, function (err, allPianos) {
       res.render("gallery/index", { page: page, pianos: allPianos, cat: {}});
     });

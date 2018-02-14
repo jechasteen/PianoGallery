@@ -14,3 +14,4 @@
 #ignore gen files and sandbox
 
 sandbox.js
+express-settings.js
