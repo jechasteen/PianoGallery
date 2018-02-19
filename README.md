@@ -48,7 +48,14 @@ This server has the following dependencies:
 I suppose you might call this a MEN stack. 
 
 ### Live Demo
-When the demo goes live, the URL will be posted here!
+The live demo is hosted c9.io: https://pianogallery-jechasteen.c9users.io/
+
+Give the Admin route a try too! navigate to /admin and login using:
+```
+username: demo
+password: password
+```
+And don't worry about messing with stuff, it's created randomly!
 
 ###### The BHA Brand is copyright BHA Piano Center, LLC. Dayton, OH
 
