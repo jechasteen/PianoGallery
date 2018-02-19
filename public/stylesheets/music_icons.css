@@ -1,0 +1,53 @@
+﻿@charset "UTF-8";
+
+@font-face {
+  font-family: "music";
+  src:url("../fonts/music.eot");
+  src:url("../fonts/music.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/music.woff") format("woff"),
+    url("../fonts/music.ttf") format("truetype"),
+    url("../fonts/music.svg#music") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "music" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "music" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-note:before {
+  content: "\61";
+  font-size: 50px;
+  color: white
+}
+.icon-note-beamed:before {
+  content: "\62";
+}
+.icon-play:before {
+  content: "\63";
+  font-size: 50px;
+  color: white
+}

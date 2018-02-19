@@ -1,8 +1,73 @@
-﻿<% include partials/header %>
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Home - BHA Piano Center</title>
+  <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" />
+  <link href="/stylesheets/index.css" rel="stylesheet" />
+  <link href="/stylesheets/music_icons.css" rel="stylesheet"></head>
+<body>
+  <div class="row w-100 p-0 m-auto">
+    <div class="jumbotron-fluid">
+      <img src="/site/keys.jpg" class="head-img" />
+      <div class="overlay">
+        <h4>Piano Sales &amp; Service</h4>
+        <h4>Since 1949</h4>
+        <h1 class="display-1 jumbo-h1">BHA Piano Center</h1>
+        <p class="lead">Grands, Uprights &amp; Digitals at Unbelievable Low, Low Prices.</p>
+      </div>
+    </div>
+  </div>
+  <div class="m-0 px-0">
+    <div class="row text-center h-50 p-0">
+      <div class="col-sm-4 col-xs-6 bg-primary p-5">
+        <a href="/gallery?category=Grand">
+          <div class="icon-note p-0"></div>
+          <br />
+          <h1 class="categories">Grand Pianos</h1>
+        </a>
+      </div>
+      <div class="col-sm-4 col-xs-6 bg-secondary p-5">
+        <a href="/gallery?category=Upright">
+          <div class="icon-note"></div>
+          <br />
+          <h1 class="categories">Upright Pianos</h1>
+        </a>
+      </div>
+      <div class="col-sm-4 col-xs-6 bg-primary p-5">
+        <a href="/gallery?category=Digital">
+          <div class="icon-note"></div>
+          <br />
+          <h1 class="categories">Digital Pianos</h1>
+        </a>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-sm-12 bg-danger p-5">
+        <a href="/gallery">
+          <div class="icon-play p-0"></div>
+          <br />
+          <h1 class="categories">All Pianos</h1>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 bg-secondary p-5">
+        <div class="footer">
+          <h5>
+            BHA Logo Copyright &copy; BHA Piano Center
+          </h5>
+          <p>
+            868 S. Patterson Blvd., Dayton, Ohio 45402 <br />
+            Toll Free (800) 595-2535 <br />
+            Local (937) 461-5520 <br />
+            Fax (937)461-4831
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<h1>Index Route</h1>
-
-<a href="/gallery">Gallery</a>
-<a href="/blog">Blog</a>
-
-<% include partials/footer %>
+  <script src="/javascripts/jquery-3.2.1.js"></script>
+  <script src="/javascripts/bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>

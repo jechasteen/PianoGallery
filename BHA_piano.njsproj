@@ -87,6 +87,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="public\stylesheets\bootstrap.min.css" />
+    <Content Include="public\stylesheets\index.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\stylesheets\login.css">
       <SubType>Code</SubType>
     </Content>
