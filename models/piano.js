@@ -1,4 +1,4 @@
-﻿var mongoose = require("mongoose");
+var mongoose = require("mongoose");
 var moment = require("moment");
 
 var pianoSchema = new mongoose.Schema({

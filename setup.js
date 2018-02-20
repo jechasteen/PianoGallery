@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 var mongoose = require("mongoose");
 var prompt = require("prompt");
 var Admin = require("./models/admin");

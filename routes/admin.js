@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 var express = require("express");
 var router = express.Router();
 var passport = require("passport");
@@ -63,7 +63,7 @@ router.put("/set", function (req, res) {
 // Register
 //
 // TODO: Both register routes should be disabled after setup.
-router.get("/register", function (req, res) {
+/* router.get("/register", function (req, res) {
   page.title = "Register Administrator";
   res.render("admin/register", { page: page });
 });
@@ -77,6 +77,7 @@ router.post("/register", function (req, res) {
     });
   });
 });
+*/
 
 //
 // Login

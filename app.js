@@ -1,12 +1,12 @@
-﻿'use strict';
+'use strict';
 var page = {};
 
-var seed = require("./seed");
+//var seed = require("./gen/seed_live.js");
 
-var debug = require('debug');
+// var debug = require('debug');
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
+// var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -20,7 +20,7 @@ var Admin = require("./models/admin");
 mongoose.connect(process.env.DBURL, { useMongoClient: true });
 
 // Seed the DB
-// seed(50);
+//seed(50);
 
 var indexRoutes = require('./routes/index');
 var galleryRoutes = require('./routes/gallery');

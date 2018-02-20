@@ -1,4 +1,4 @@
-﻿<% if (page.admin) { %>
+<% if (page.admin) { %>
 <div class="sticky-top admin-nav p-3">
   <form action="/blog/<%= post._id %>?_method=DELETE" method="POST">
     <a href="/blog/<%= post._id %>/edit" class="btn btn-warning">Edit Post</a>

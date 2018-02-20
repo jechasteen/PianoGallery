@@ -1,4 +1,4 @@
-﻿var Admin = require("./models/admin");
+var Admin = require("./models/admin");
 
 var middleware = {};
 

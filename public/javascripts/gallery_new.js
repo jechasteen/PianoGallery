@@ -1,4 +1,4 @@
-﻿// Script for route: /gallery/:id/addimg
+// Script for route: /gallery/:id/addimg
 
 function wrap(el, wrapper) {
   el.parentNode.insertBefore(wrapper, el);

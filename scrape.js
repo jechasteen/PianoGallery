@@ -1,4 +1,4 @@
-﻿// This file is intended to be run in the client
+// This file is intended to be run in the client
 
 
 // Global Variables

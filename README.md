@@ -1,4 +1,4 @@
-﻿# BHA Piano Center
+# BHA Piano Center
 *Piano Gallery and Blog*
 
 ### Design

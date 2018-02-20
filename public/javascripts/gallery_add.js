@@ -1,4 +1,4 @@
-﻿// Script for route: /gallery/:id/addimg
+// Script for route: /gallery/:id/addimg
 
 window.onload = function () {
   function handleFileSelect(evt) {

@@ -1,4 +1,4 @@
-﻿//
+//
 //  Handle Category Filtering
 var categorySelection = [];
 var selectedCategories = [];

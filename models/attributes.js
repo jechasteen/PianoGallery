@@ -1,4 +1,4 @@
-﻿var mongoose = require("mongoose");
+var mongoose = require("mongoose");
 
 var attributeSchema = new mongoose.Schema({
   name: String,     // Homepage title, used throught (e.g. "BHA Piano")

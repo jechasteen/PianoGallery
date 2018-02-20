@@ -1,4 +1,4 @@
-﻿var error = {
+var error = {
   Utils: function (util, func, err) {
     console.log([">>>> Error", util, ":", err].join(' '));
   },

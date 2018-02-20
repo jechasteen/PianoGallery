@@ -1,4 +1,4 @@
-﻿var Piano = require("./models/piano");
+var Piano = require("./models/piano");
 var moment = require("moment");
 var error = require("./error.js");
 

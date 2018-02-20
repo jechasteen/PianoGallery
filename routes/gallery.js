@@ -1,4 +1,4 @@
-﻿// TODO: Find places where res.redirect(...) can be replaced with "back"
+// TODO: Find places where res.redirect(...) can be replaced with "back"
 // TODO: Make sure image does not already exist, if using chgimg route
 // TODO: 
 
@@ -13,8 +13,8 @@ var error = require("../error.js");
 var middleware = require("../middleware");
 var isLoggedIn = middleware.isLoggedIn;
 
-var imageDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\public\\images\\";
-var uploadDirectory = "c:\\Users\\jonat\\source\\repos\\BHA_piano\\uploads\\";
+var imageDirectory = "/home/ubuntu/workspace/public/images";
+var uploadDirectory = "/home/ubuntu/workspace/public/uploads";
 
 var page = {};
 
@@ -29,10 +29,14 @@ router.get("/", function (req, res) {
   }
   page.title = "Gallery";
   var cat = req.query.category;
-
+  
   if (cat === "" || cat === undefined || cat === "All") {
     Piano.find({}, function (err, allPianos) {
-      res.render("gallery/index", { page: page, pianos: allPianos, cat: {}});
+      if (err) error.Route("GET", "Piano.fin()", req, err);
+      else {
+        console.log("render index route...");
+        res.render("gallery/index", { page: page, pianos: allPianos, cat: ''});
+      }
     });
   } else {
     cat = cat.split(',');
@@ -158,7 +162,7 @@ router.put("/:id/addimg", isLoggedIn, function (req, res) {
     if (!fs.existsSync(imgDir)) {
       fs.mkdirSync(imgDir);
     }
-    Piano.findById(req.params.id, function (err, foundPiano, ) {
+    Piano.findById(req.params.id, function (err, foundPiano) {
       if (err) {
         error.Route("PUT", "Piano.findById", req, err);
         res.redirect("/gallery/" + req.params.id);
