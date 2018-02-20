@@ -1,7 +1,6 @@
 # Ignore Node modules
 /node_modules
 # Do not track images
-/public/images
 # VS files
 /.vs/*
 /obj
