@@ -2,7 +2,7 @@
 *Piano Gallery and Blog*
 
 ### Design
-Both the Gallery and the Blog use complete RESTful routing.
+Both the Gallery and the Blog use complete CRUD routing.
 
 #### The Piano Gallery
 In the case of the Piano Gallery, I decided to add a few additional routes.
@@ -12,7 +12,7 @@ Besides, it turned out to be super difficult and a little beyond the scope of my
 So, rather than let this little annoyance halt development, I settled on the routing as it stands now.
 
 #### The Blog
-The blog is an absolutely dead simple RESTful blog, primarily intended for use as promotional copy.
+The blog is an absolutely dead simple CRUD blog, primarily intended for use as promotional copy.
 In other words, the blog posts should be referenced on the index page, not accessed from the /blog route.
 
 #### The Stack
