@@ -1,7 +1,7 @@
 ﻿'use strict';
 var page = {};
 
-var seed = require("./seed");
+// var seed = require("./seed");
 
 var debug = require('debug');
 var express = require('express');
@@ -41,7 +41,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 
-var expressSessionSettings = require("./express-settings");
+var expressSessionSettings = {
+  secret: 'Keyboard',
+  saveUninitialized: true,
+  resave: false
+};
 // PASSPORT CONFIG
 app.use(require("express-session")(expressSessionSettings));
 
