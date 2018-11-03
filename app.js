@@ -1,11 +1,7 @@
 'use strict';
 var page = {};
 
-<<<<<<< HEAD
-//var seed = require("./gen/seed_live.js");
-=======
 // var seed = require("./seed");
->>>>>>> 4602da0074ec0b385491a14d26e4a20ea6960ff4
 
 // var debug = require('debug');
 var express = require('express');
