@@ -2,3 +2,15 @@ body {
   background-color: #f5f5f5;
   padding-top: 3em;
 }
+
+a.card {
+  color: black;
+  box-shadow: 6px 6px 20px rgba(0,0,0,0.03), -6px 6px 20px rgba(0,0,0,0.03);
+}
+
+a.card:hover,
+a.card:active {
+  color: black;
+  text-decoration: none;
+  box-shadow: 6px 6px 20px rgba(0,0,0,0.1), -6px 6px 20px rgba(0,0,0,0.1);
+}

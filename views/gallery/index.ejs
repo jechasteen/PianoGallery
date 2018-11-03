@@ -19,13 +19,11 @@
         <div class="card-deck">
           <% pianos.forEach( function(piano) { %>
           <div class="col-sm-4 mb-5">
-            <div class="card">
-              <a href="/gallery/<%= piano._id %>">
-                <div class="card-header text-center"><h3><%= piano.title %></h3></div>
-                <div class="card-img-top">
-                  <img class="img-thumbnail p-0" src="/images/<%= piano._id %>/<%= piano.main_image %>">
-                </div>
-              </a>
+            <a href="/gallery/<%= piano._id %>" class="card">
+              <div class="card-header text-center"><h3><%= piano.title %></h3></div>
+              <div class="card-img-top">
+                <img class="img-thumbnail p-0" src="/images/<%= piano._id %>/<%= piano.main_image %>">
+              </div>
               <div class="card-body">
                 <%= piano.desc %>
               </div>
@@ -34,10 +32,10 @@
                 <li class="list-group-item h4 text-center">$<%= piano.l_price %></li>
                 <% } else { %>
                 <li class="list-group-item h4 text-center text-secondary">$<del><%= piano.l_price %></del></li>
-                <li class="list-group-item h3 text-center text-danger">$<%= piano.a_price %></li>
+                <li class="list-group-item h3 text-center text-danger"><strong>$<%= piano.a_price %></strong></li>
                 <% } %>
               </ul>
-            </div>
+            </a>
           </div>
           <% }); %>
         </div>
