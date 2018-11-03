@@ -48,7 +48,7 @@ This server has the following dependencies:
 I suppose you might call this a MEN stack. 
 
 ### Live Demo
-The live demo is hosted at Heroku: http://bha.skidstack.com
+The live demo is hosted at Heroku: http://bha-piano.herokuapp.com
 
 Give the Admin route a try too! navigate to /admin and login using:
 ```
