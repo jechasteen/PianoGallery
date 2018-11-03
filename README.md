@@ -2,7 +2,7 @@
 *Piano Gallery and Blog*
 
 ### Design
-Both the Gallery and the Blog use complete RESTful routing.
+Both the Gallery and the Blog use complete CRUD routing.
 
 #### The Piano Gallery
 In the case of the Piano Gallery, I decided to add a few additional routes.
@@ -12,7 +12,7 @@ Besides, it turned out to be super difficult and a little beyond the scope of my
 So, rather than let this little annoyance halt development, I settled on the routing as it stands now.
 
 #### The Blog
-The blog is an absolutely dead simple RESTful blog, primarily intended for use as promotional copy.
+The blog is an absolutely dead simple CRUD blog, primarily intended for use as promotional copy.
 In other words, the blog posts should be referenced on the index page, not accessed from the /blog route.
 
 #### The Stack
@@ -48,7 +48,14 @@ This server has the following dependencies:
 I suppose you might call this a MEN stack. 
 
 ### Live Demo
-When the demo goes live, the URL will be posted here!
+The live demo is hosted at Heroku: http://bha.skidstack.com
+
+Give the Admin route a try too! navigate to /admin and login using:
+```
+username: demo
+password: password
+```
+And don't worry about messing with stuff, it's created randomly!
 
 ###### The BHA Brand is copyright BHA Piano Center, LLC. Dayton, OH
 

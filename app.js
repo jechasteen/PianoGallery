@@ -1,7 +1,11 @@
 'use strict';
 var page = {};
 
+<<<<<<< HEAD
 //var seed = require("./gen/seed_live.js");
+=======
+// var seed = require("./seed");
+>>>>>>> 4602da0074ec0b385491a14d26e4a20ea6960ff4
 
 // var debug = require('debug');
 var express = require('express');
@@ -41,7 +45,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride("_method"));
 
-var expressSessionSettings = require("./express-settings");
+var expressSessionSettings = {
+  secret: 'Keyboard',
+  saveUninitialized: true,
+  resave: false
+};
 // PASSPORT CONFIG
 app.use(require("express-session")(expressSessionSettings));
 
