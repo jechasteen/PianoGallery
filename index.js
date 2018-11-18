@@ -103,9 +103,14 @@ app.use(function (err, req, res, next) {
   });
 });
 
-app.listen(process.env.PORT, process.env.IP, function () {
-  console.log("BHA Piano server listening at http://" +
-    utils.Host(process.env.IP) + ":" + process.env.PORT);
-});
+if (process.env.STANDALONE == 1) {
+  app.listen(process.env.PORT, process.env.IP, function () {
+    console.log("BHA Piano server listening at http://" +
+      utils.Host(process.env.IP) + ":" + process.env.PORT);
+  });
+} else {
+  console.log('Piano Gallery module loaded...');
+}
 
-module.exports = app;
+
+module.exports = app.Router();
