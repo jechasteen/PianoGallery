@@ -113,4 +113,4 @@ if (process.env.STANDALONE == 1) {
 }
 
 
-module.exports = app;
+module.exports = app.Router;
