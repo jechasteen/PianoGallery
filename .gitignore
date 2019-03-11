@@ -1,15 +1,11 @@
 # Ignore Node modules
-/node_modules
+node_modules/*
 # Do not track images
 # VS files
-/.vs/*
-/obj
+.vs/*
+obj/*
 *.njsproj
-# git ignore
-/.git
-.gitignore
 #ignore bootstrap
 /public/javascripts/bootstrap/*
 #ignore gen files and sandbox
-
 sandbox.js
