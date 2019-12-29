@@ -17,7 +17,7 @@ var methodOverride = require('method-override');
 var utils = require("./utils");
 var Admin = require("./models/admin");
 
-mongoose.connect(process.env.DBURL);
+mongoose.connect(process.env.DBURL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Seed the DB
 //seed(50);
