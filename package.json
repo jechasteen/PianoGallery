@@ -22,7 +22,7 @@
     "fs": "0.0.1-security",
     "jquery": "^3.5.0",
     "method-override": "^2.3.10",
-    "moment": "^2.20.1",
+    "moment": "^2.29.2",
     "mongoose": "^5.8.3",
     "morgan": "^1.7.0",
     "passport": "^0.4.0",
